@@ -1,0 +1,149 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+/* Font */
+body {
+    font-family: 'Lucida sans', Arial, Helvetica;
+    font-size: small;
+}
+
+.component-hierarchy,
+.component-hierarchy *
+{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+ 
+.component-hierarchy label::before
+{
+    content: "\25b6"; /* right triangle */
+    display: inline-block;
+    margin: 2px 0 0;
+    width: 1.5em;
+    height: 13px;
+    vertical-align: top;
+    text-align: center;
+    color: #000000;
+    font-size: medium;
+    line-height: 13px;
+}
+ 
+.component-hierarchy li ul
+{
+    margin: 0 0 0 24px;
+}
+ 
+.component-hierarchy *
+{
+    vertical-align: middle;
+}
+ 
+.component-hierarchy li
+{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+ 
+/* Don't display check box */
+.component-hierarchy input[type="checkbox"]
+{
+    display: none;
+}
+ 
+.component-hierarchy input[type="checkbox"][id]:checked ~ label::before
+{
+    content: "\25e2"; /* down triangle */
+    color: #999999;
+}
+ 
+.component-hierarchy input[type="checkbox"][id]:not(:checked) ~ ul
+{
+    display: none;
+}
+ 
+.component-hierarchy label:not([for])
+{
+    margin: 0 8px 0 0;
+}
+
+aside {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 48%;
+}
+h1 {
+    font-size: large;
+}
+h2 {
+    font-size: medium;
+}
+h3 {
+    font-size: small;
+    margin-top: 0.5em;
+    margin-bottom: 0.2em;
+}
+dl {
+    margin-top: 0.1em;
+    margin-bottom: 0.1em;
+    border: 0;
+    padding: 0;
+}
+dl.metadata dt {
+    font-style: italic;
+}
+dt {
+    float: left;
+    clear: both;
+    padding-right: 0.5em;
+}
+dd::before {
+    content: ":";
+    padding-right: 0.5em;
+}
+dd {
+    padding-bottom: 0.2em;
+}
+
+.python-type {
+    color: #c90003;
+}
+.pyre-component {
+    color: #227eff;
+}
+label .pyre-component,
+dt .pyre-component {
+    font-weight: bold;
+}
+.pyre-property {
+    color: #009900;
+}
+dt .pyre-property {
+    font-weight: bold;
+}
+.selected {
+    background: #cccccc;
+}

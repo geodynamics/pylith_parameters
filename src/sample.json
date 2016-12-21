@@ -1,0 +1,108 @@
+{
+    "version": {
+	"pylith": "v2.1.4"
+    },
+    "application": {
+	"name": "pylithapp",
+	"class": "pylith.apps.PyLithApp.PyLithApp",
+	"properties": {},
+	"components": {
+	    "mesh_generator": {
+		"name": "mesh_importer",
+		"class": "pylith.topology.MeshImporter.MeshImporter",
+		"description": "Generates or imports the computational mesh.",
+		"setFrom": "{default}",
+		"aliases": ["meshimporter", "mesh_generator"],
+		"properties": {
+		    "debug": {
+			"value": "False",
+			"type": "bool",
+			"description": "Debugging flag for mesh.",
+			"setFrom": "{default}"
+		    },
+		    "interpolate": {
+			"value": "False",
+			"type": "bool",
+			"description": "Build intermediate mesh topology elements.",
+			"setFrom": "{default}"
+		    },
+		    "reorder_mesh": {
+			"value": "True",
+			"type": "bool",
+			"description": "Reorder mesh using reverse Cuthill-McKee.",
+			"setFrom": "{default}"
+		    }
+		},
+		"components": {
+		    "distributor": {
+			"name": "mesh_distributor",
+			"class": "pylith.topology.Distributor.Distributor",
+			"description": "Mesh distributor.",
+			"setFrom": "{default}",
+			"aliases": ["mesh_distributor", "distributor"],
+			"properties": {
+			    "partitioner": {
+				"value": "chaco",
+				"type": "str",
+				"description": "Name of mesh partitioner.",
+				"setFrom": "{default}"
+			    },
+			    "write_partition": {
+				"value": "False",
+				"type": "bool",
+				"description": "Write partition information to file.",
+				"setFrom": "{default}"
+			    }
+			},
+			"components": {
+			    "data_writer": {
+				"name": "datawritervtk",
+				"class": "pylith.meshio.DataWriterVTK.DataWriterVTK",
+				"description": "Data writer for partition information.",
+				"setFrom": "{default}",
+				"aliases": ["data_writer", "datawritervtk"],
+				"properties": {
+				    "filename": {
+					"value": "output.vtk",
+					"type": "str",
+					"description": "Name of VTK file.",
+					"setFrom": "{default}"
+				    },
+				    "float_precision": {
+					"value": 6,
+					"type": "int",
+					"description": "Precision of floating point values in output.",
+					"setFrom": "{default}"
+				    }
+				},
+				"components": {}
+			    }
+			}
+		    },
+		    "reader": {
+			"name": "meshiocubit",
+			"class": "pylith.meshio.MeshIOCubit.MeshIOCubit",
+			"description": "Mesh reader.",
+			"setFrom": "{imported} via {file='axialdisp.cfg', line=29, column=-1}",
+			"aliases": ["meshio", "reader"],
+			"properties": {
+			    "filename": {
+				"value": "mesh_quad4.exo",
+				"type": "str",
+				"description": "Name of Cubit Exodus file.",
+				"setFrom": "{file='axialdisp.cfg', line=32, column=-1}"
+			    },
+			    "ise_nodeset_names": {
+				"value": "True",
+				"type": "bool",
+				"description": "Use nodeset names instead of ids.",
+				"setFrom": "{default}"
+			    }
+			},
+			"components": {}
+		    }
+		}
+	    }
+	}
+    }
+}
