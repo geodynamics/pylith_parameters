@@ -5,35 +5,32 @@ import './App.css';
 var parameters = require('./sample.json');
 
 class ComponentAvatar extends React.Component {
-    constructor() {
-	super();
+    constructor(props) {
+	super(props);
 
 	this.state = {
-	    showChildren: true
+	    showChildren: true,
+	    selected: false
 	};
     } // constructor
-    
-    render() {
-	const prefix = (this.props.parent) ? parent+"." : "";
-	const fullName = prefix+"."+this.props.facility;
 
-	/*
-	const components = history.map(() => {
-  const desc = move ?
-    'Move #' + move :
-    'Game start';
-  return (
-    <li>
-      <a href="#" onClick={() => this.jumpTo(move)}>{desc}</a>
-    </li>
-  );
-});
-*/
+    render() {
+	function getComponent(name) {
+	    const component = this.props.value.components[name];
+	    const prefix = (this.props.prefix) ? this.props.prefix+"."+this.props.value.name : this.props.value.name;
+	    return (
+		<li key={name}>
+		    <ComponentAvatar facility={name} value={component} prefix={prefix} />
+		    </li>
+	    );
+	} // getComponent
+	    
+	const subcomponents = Object.keys(this.props.value.components).map(getComponent, this);
 	return (
-	        <li key={fullName}>
+	    <div>
 		<input type="checkbox" defaultChecked={true} /><label><span className="pyre-component">{this.props.facility}</span> = <span className="python-type">{this.props.value.class}</span></label>
-		{/*<ul>{components}</ul>*/}
-		</li>
+		<ul>{subcomponents}</ul>
+		</div>
 	);
     } // render
 } // ComponentAvatar
@@ -45,7 +42,9 @@ class ComponentHierarchy extends React.Component {
 		<article>
 		<section>
 		<ul>
-		<ComponentAvatar facility="application" value={this.props.application} />
+		<li key="application">
+		<ComponentAvatar facility="application" value={this.props.application} prefix={null} />
+		</li>
 		</ul>
 		</section>
 		</article>
@@ -57,8 +56,7 @@ class ComponentHierarchy extends React.Component {
 class DetailSettings extends React.Component {
     render() {
 	return (
-	    
-		<p>ADD DETAIL SETTINGS HERE
+		<p>ADD DETAIL SETTINGS HERE (expand all, collapse all)
 		</p>
 	);
     } // render
