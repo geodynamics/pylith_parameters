@@ -12,25 +12,39 @@ class ComponentAvatar extends React.Component {
 	    showChildren: true,
 	    selected: false
 	};
-    } // constructor
 
-    render() {
-	function getComponent(name) {
+	this.subcomponents = Object.keys(props.value.components).map((name) => {
 	    const component = this.props.value.components[name];
 	    const prefix = (this.props.prefix) ? this.props.prefix+"."+this.props.value.name : this.props.value.name;
 	    return (
-		<li key={name}>
-		    <ComponentAvatar facility={name} value={component} prefix={prefix} />
-		    </li>
-	    );
-	} // getComponent
-	    
-	const subcomponents = Object.keys(this.props.value.components).map(getComponent, this);
+		    <ComponentAvatar key={name} facility={name} value={component} prefix={prefix} />
+	    );	    
+	}, this);
+
+    } // constructor
+
+    handleCollapseClick(event) {
+	event.stopPropagation();
+	this.setState({
+	    showChildren: !this.state.showChildren
+	});
+    } // handleClick
+    
+    handleDetailClick(event) {
+	event.stopPropagation();
+	console.log("DETAIL CLICK");
+	console.log(this.props.value);
+    } // handleClick
+    
+    render() {
+	const componentClass = this.state.showChildren ? 'pyre-component-expanded' : 'pyre-component-collapsed';
+	const childrenClass = this.state.showChildren ? 'pyre-children' : 'pyre-children-collapsed';
+
 	return (
-	    <div>
-		<input type="checkbox" defaultChecked={true} /><label><span className="pyre-component">{this.props.facility}</span> = <span className="python-type">{this.props.value.class}</span></label>
-		<ul>{subcomponents}</ul>
-		</div>
+		<li key={this.props.value.name} className={componentClass} onClick={(event) => this.handleCollapseClick(event)} >
+		<span className="pyre-component">{this.props.facility}</span> = <span className="python-type" onClick={(event) => this.handleDetailClick(event)}>{this.props.value.class}</span>
+		<ul className={childrenClass}>{this.subcomponents}</ul>
+		</li>
 	);
     } // render
 } // ComponentAvatar
@@ -42,9 +56,7 @@ class ComponentHierarchy extends React.Component {
 		<article>
 		<section>
 		<ul>
-		<li key="application">
-		<ComponentAvatar facility="application" value={this.props.application} prefix={null} />
-		</li>
+		<ComponentAvatar key="application" facility="application" value={this.props.application} prefix={null} />
 		</ul>
 		</section>
 		</article>
@@ -56,7 +68,7 @@ class ComponentHierarchy extends React.Component {
 class DetailSettings extends React.Component {
     render() {
 	return (
-		<p>ADD DETAIL SETTINGS HERE (expand all, collapse all)
+		<p>ADD DETAIL SETTINGS HERE (show/hide setFrom, description)
 		</p>
 	);
     } // render

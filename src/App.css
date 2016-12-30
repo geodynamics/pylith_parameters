@@ -35,17 +35,32 @@ body {
     margin: 0;
     list-style: none;
 }
- 
-.component-hierarchy label::before
+
+.pyre-component-collapsed::before
 {
     content: "\25b6"; /* right triangle */
+    color: #000000;
+
     display: inline-block;
     margin: 2px 0 0;
     width: 1.5em;
     height: 13px;
     vertical-align: top;
     text-align: center;
-    color: #000000;
+    font-size: medium;
+    line-height: 13px;
+}
+.pyre-component-expanded::before
+{
+    content: "\25e2";  down triangle 
+    color: #999999;
+
+    display: inline-block;
+    margin: 2px 0 0;
+    width: 1.5em;
+    height: 13px;
+    vertical-align: top;
+    text-align: center;
     font-size: medium;
     line-height: 13px;
 }
@@ -66,23 +81,21 @@ body {
     -moz-user-select: none;
     user-select: none;
 }
- 
+
 /* Don't display check box */
+/*
 .component-hierarchy input[type="checkbox"]
 {
     display: none;
 }
- 
-.component-hierarchy input[type="checkbox"][id]:checked ~ label::before
-{
-    content: "\25e2"; /* down triangle */
-    color: #999999;
-}
- 
-.component-hierarchy input[type="checkbox"][id]:not(:checked) ~ ul
+ */
+
+.pyre-children-collapsed
 {
     display: none;
 }
+
+
  
 .component-hierarchy label:not([for])
 {
