@@ -82,21 +82,7 @@ body {
     user-select: none;
 }
 
-/* Don't display check box */
-/*
-.component-hierarchy input[type="checkbox"]
-{
-    display: none;
-}
- */
 
-.pyre-children-collapsed
-{
-    display: none;
-}
-
-
- 
 .component-hierarchy label:not([for])
 {
     margin: 0 8px 0 0;
@@ -143,6 +129,10 @@ dd {
 
 .python-type {
     color: #c90003;
+}
+.python-type-selected {
+    color: #c90003;
+    background: #cccccc;
 }
 .pyre-component {
     color: #227eff;
