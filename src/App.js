@@ -28,6 +28,11 @@ class ComponentAvatar extends React.Component {
 	});
     } // setSelected 
 
+
+    getFacility() {
+	return this.props.facility;
+    } // getFacility
+    
     getComponent() {
 	return this.props.value;
     } // getComponent
@@ -36,9 +41,8 @@ class ComponentAvatar extends React.Component {
 	event.stopPropagation();
 
 	console.log("DETAIL CLICK");
-	console.log(this.props.value);
+	console.log(this.getComponent());
 
-	// :TODO:
 	this.setSelected(true);
 	this.props.handleSelection(this)
     } // handleClick
@@ -66,24 +70,16 @@ class ComponentAvatar extends React.Component {
     } // render
 } // ComponentAvatar
 
-class HierarchySettings extends React.Component {
-    render() {
-	return (
-	    <div className="hierarchy-settings">
-		<button >Expand all</button>
-		<button >Collapse all</button>
-		</div>
-	);
-    } // render
-} // DetailSettings
-
 class HierarchyPanel extends React.Component {
     render() {
 	return (
 		<div className="component-hierarchy">
 		<article>
 		<section>
-	        <HierarchySettings />
+		<div className="hierarchy-settings">
+		<button >Expand all</button>
+		<button >Collapse all</button>
+		</div>
 		<ul>
 		<ComponentAvatar key="application" facility="application" value={this.props.application} prefix={null} handleSelection={this.props.handleSelection} />
 		</ul>
@@ -95,26 +91,42 @@ class HierarchyPanel extends React.Component {
 } // HierarchyPanel
 
 class ComponentDetail extends React.Component {
-    constructor(props) {
-	super(props);
-	
-	this.myprops = {value: {
-	    name: null,
-	    class: null,
-	    description: null,
-	    setFrom: null,
-	    aliases: [],
-	    properties: [],
-	    components: []
-	}
-		     }
-    } // constructor
-    
     render() {
 
-	let aliases = null;
-	let componentProperties = null;
-	let componentFacilities = null;
+	// :TODO:
+	// aliases - <span className="">
+	// full path
+	// facility name not component name
+	// show/hide description
+	// show/hide location
+	// properties
+	// facilities
+	
+	const component = (this.props.selected) ? this.props.selected.getComponent() : null;
+	if (!component) {
+	    return null;
+	} // if
+	const facility = this.props.selected.getFacility();
+	
+	const description = (this.props.showDescription) ? <div><dt>Description</dt><dd>{component.description}</dd></div> : null;
+	const location = (this.props.showLocation) ? <div><dt>Set from</dt><dd>{component.setFrom}</dd></div> : null;
+	
+	const aliases = component.aliases
+	      .map(alias => <span key={alias} className="pyre-component">{alias}</span>)
+	      .reduce((prev,curr) => {return([prev, ', ', curr])});
+
+	const properties = Object.keys(component.properties).map((name) => {
+	    console.log("BB");
+	    console.log(this);
+	    const property = this.props.selected.getComponent().properties[name];
+	    return (
+		    <ComponentProperty key={name} name={name} value={property} showDescription={this.props.showDescription} showLocation={this.props.showLocation} />
+		);
+	    }, this);
+
+
+	
+	let facilities = null;
 	/* properties = 
 		<dt><span class="pyre-property">field</span> (<span class="python-type">str</span>)<dt><dd><span class="pyre-value">displacement</span>
           <dl class="metadata">
@@ -133,30 +145,47 @@ class ComponentDetail extends React.Component {
         </dd> */
 	
 	/*aliases = <span class="pyre-component">dirichlettimedependent</span>, <span class="pyre-component">x_neg</span>*/
-	return (
-	    <div className="component-detail">
-	        <h2>
-		<span className="pyre-component">{this.myprops.value.name}</span> = <span className="python-type">{this.myprops.value.class}</span>
-		</h2>
 
+	return (
+		<div className="component-detail">
+	        <h2>
+		<span className="pyre-component">{facility}</span> = <span className="python-type">{component.class}</span>
+		</h2>
+	    
 		<h3>Component information</h3>
 		<dl className="metadata">
-		<dt>Full path</dt><dd><span className="pyre-component">[{this.myprops.value.fullPath}]</span></dd>
-		<dt>Description</dt><dd>{this.myprops.value.description}</dd>
-		<dt>Set from</dt><dd>{this.myprops.value.setFrom}</dd>
+		<dt>Full path</dt><dd><span className="pyre-component">[{component.fullPath}]</span></dd>
+		{description}
+	        {location}
 		<dt>Configurable as</dt><dd>{aliases}</dd>
 		</dl>
-
+		
 		<h3>Properties</h3>
-		<dl>{componentProperties}</dl>
-
+		<dl>{properties}</dl>
+		
 	        <h3>Facilities (subcomponents)</h3>
-		<dl>{componentFacilities}</dl>
+		<dl>{facilities}</dl>
 		</div>
 	);
     } // render
 } // ComponentDetail
 
+
+class ComponentProperty extends React.Component {
+    render() {
+	const property = this.props.value;
+	const description = (this.props.showDescription) ? <div><dt>Description</dt><dd>{property.description}</dd></div> : null;
+	const location = (this.props.showLocation) ? <div><dt>Set from</dt><dd>{property.setFrom}</dd></div> : null;
+	return(
+		<div><dt><span className="pyre-property">{this.props.name}</span> (<span className="python-type">{property.type}</span>)</dt><dd><span className="pyre-value">{property.value}</span>
+		<dl className="metadata">
+		{description}
+            {location}
+	    </dl>
+		</dd></div>
+	);
+    } // render
+} // ComponentProperty
 
 class DetailPanel extends React.Component {
     constructor(props) {
@@ -173,8 +202,8 @@ class DetailPanel extends React.Component {
 		<div className="component-detail">
 		<aside>
 		<div className="detail-settings">
-		<label><input type="checkbox" defaultChecked={true} />Show description</label>
-		<label><input type="checkbox" defaultChecked={true} />Show location</label>
+		<label><input type="checkbox" defaultChecked={this.state.showDescription} />Show description</label>
+		<label><input type="checkbox" defaultChecked={this.state.showLocation} />Show location</label>
 		</div>
 		<ComponentDetail selected={this.props.selected} showDescription={this.state.showDescription} showLocation={this.state.showLocation}/>
 		</aside>
@@ -214,6 +243,9 @@ class Parameters extends React.Component {
 	console.log(this.selected);
 	if (this.selected) {
 	    this.selected.setSelected(true);
+	    this.setState({
+		selected: this.selected
+	    });
 	} // if
     } // handleSelection
     

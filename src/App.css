@@ -52,7 +52,7 @@ body {
 }
 .pyre-component-expanded::before
 {
-    content: "\25e2";  down triangle 
+    content: "\25e2";  /* down triangle  */
     color: #999999;
 
     display: inline-block;
@@ -91,7 +91,7 @@ body {
 aside {
     position: fixed;
     right: 0;
-    top: 0;
+    top: 80px;
     width: 48%;
 }
 h1 {
