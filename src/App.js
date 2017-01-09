@@ -9,8 +9,6 @@ import './App.css';
 //   expand all
 //   collapse all
 // Detail
-//   Show/hide description
-//   Show/hide location
 
 var parameters = require('./sample.json');
 
@@ -99,12 +97,6 @@ class HierarchyPanel extends React.Component {
 
 class ComponentDetail extends React.Component {
     render() {
-
-	// :TODO:
-	// show/hide description
-	// show/hide location
-	// facilities
-
 	const selected = this.props.selected;
 	const component = (selected) ? selected.getComponent() : null;
 	if (!component) {
@@ -134,15 +126,6 @@ class ComponentDetail extends React.Component {
 		);
 	    }, this);
 
-	/* facilities = 
-        <dt><span class="pyre-component">auxiliary_fields</span><dt><dd><span class="python-type">pylith.bc.AuxFieldsTimeDependent</span>
-          <dl class="metadata">
-            <dt>Description</dt><dd>Discretization of constraint parameters.</dd>
-            <dt>Set from</dt><dd>{default}</dd>
-            <dt>Configurable as</dt><dd><span class="pyre-component">auxfieldstimedependnet</span>, <span class="pyre-component">auxiliary_fields</span></dd>
-          </dl>
-        </dd> */
-	
 	return (
 		<div className="component-detail">
 	        <h2>
@@ -152,9 +135,9 @@ class ComponentDetail extends React.Component {
 		<h3>Component information</h3>
 		<dl className="metadata">
 		<dt>Full path</dt><dd><span className="pyre-component">[{fullPath}]</span></dd>
+		<dt>Configurable as</dt><dd>{aliases}</dd>
 		{description}
 	        {location}
-		<dt>Configurable as</dt><dd>{aliases}</dd>
 		</dl>
 		
 		<h3>Properties</h3>
@@ -195,10 +178,10 @@ class ComponentFacility extends React.Component {
 	return(
 		<div><dt><span className="pyre-component">{this.props.name}</span></dt><dd><span className="python-type">{facility.class}</span>
 		<dl className="metadata">
-		{description}
-            {location}
 		<dt>Configurable as</dt><dd>{aliases}</dd>
-	    </dl>
+		{description}
+                {location}
+	        </dl>
 		</dd></div>
 	);
     } // render
@@ -214,13 +197,25 @@ class DetailPanel extends React.Component {
 	};
     } // constructor
     
+    handleDescriptionChange() {
+	this.setState({
+	    showDescription: !this.state.showDescription
+	});
+    } // handleDescriptionChange
+
+    handleLocationChange() {
+	this.setState({
+	    showLocation: !this.state.showLocation
+	});
+    } // handleLocationChange
+
     render() {
 	return (
 		<div className="component-detail">
 		<aside>
 		<div className="detail-settings">
-		<label><input type="checkbox" defaultChecked={this.state.showDescription} />Show description</label>
-		<label><input type="checkbox" defaultChecked={this.state.showLocation} />Show location</label>
+		<label><input type="checkbox" defaultChecked={this.state.showDescription} onChange={() => this.handleDescriptionChange()} />Show description</label>
+		<label><input type="checkbox" defaultChecked={this.state.showLocation} onChange={() => this.handleLocationChange()} />Show location</label>
 		</div>
 		<ComponentDetail selected={this.props.selected} showDescription={this.state.showDescription} showLocation={this.state.showLocation}/>
 		</aside>
