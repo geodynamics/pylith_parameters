@@ -2,6 +2,16 @@ import React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './App.css';
 
+// :TODO:
+// File selector
+// Version
+// Hierarchy
+//   expand all
+//   collapse all
+// Detail
+//   Show/hide description
+//   Show/hide location
+
 var parameters = require('./sample.json');
 
 class ComponentAvatar extends React.Component {
@@ -39,9 +49,6 @@ class ComponentAvatar extends React.Component {
     
     handleDetailClick(event) {
 	event.stopPropagation();
-
-	console.log("DETAIL CLICK");
-	console.log(this.getComponent());
 
 	this.setSelected(true);
 	this.props.handleSelection(this)
@@ -94,46 +101,38 @@ class ComponentDetail extends React.Component {
     render() {
 
 	// :TODO:
-	// aliases - <span className="">
-	// full path
-	// facility name not component name
 	// show/hide description
 	// show/hide location
-	// properties
 	// facilities
-	
-	const component = (this.props.selected) ? this.props.selected.getComponent() : null;
+
+	const selected = this.props.selected;
+	const component = (selected) ? selected.getComponent() : null;
 	if (!component) {
 	    return null;
 	} // if
-	const facility = this.props.selected.getFacility();
-	
+	const facility = selected.getFacility();
+
+	const fullPath = (selected.props.prefix) ? selected.props.prefix + "." + selected.props.value.name : selected.props.value.name;
 	const description = (this.props.showDescription) ? <div><dt>Description</dt><dd>{component.description}</dd></div> : null;
 	const location = (this.props.showLocation) ? <div><dt>Set from</dt><dd>{component.setFrom}</dd></div> : null;
 	
-	const aliases = component.aliases
+	const aliases = (component.aliases) ? component.aliases
 	      .map(alias => <span key={alias} className="pyre-component">{alias}</span>)
-	      .reduce((prev,curr) => {return([prev, ', ', curr])});
+	      .reduce((prev,curr) => {return([prev, ', ', curr])}) : null;
 
 	const properties = Object.keys(component.properties).map((name) => {
-	    console.log("BB");
-	    console.log(this);
 	    const property = this.props.selected.getComponent().properties[name];
 	    return (
 		    <ComponentProperty key={name} name={name} value={property} showDescription={this.props.showDescription} showLocation={this.props.showLocation} />
 		);
 	    }, this);
 
-
-	
-	let facilities = null;
-	/* properties = 
-		<dt><span class="pyre-property">field</span> (<span class="python-type">str</span>)<dt><dd><span class="pyre-value">displacement</span>
-          <dl class="metadata">
-		<dt>Description</dt><dd>Name of solution field to constrain.</dd>
-		            <dt>Set from</dt><dd>{default}</dd>
-          </dl>
-        </dd> */
+	const facilities = Object.keys(component.components).map((name) => {
+	    const facility = this.props.selected.getComponent().components[name];
+	    return (
+		    <ComponentFacility key={name} name={name} value={facility} showDescription={this.props.showDescription} showLocation={this.props.showLocation} />
+		);
+	    }, this);
 
 	/* facilities = 
         <dt><span class="pyre-component">auxiliary_fields</span><dt><dd><span class="python-type">pylith.bc.AuxFieldsTimeDependent</span>
@@ -144,8 +143,6 @@ class ComponentDetail extends React.Component {
           </dl>
         </dd> */
 	
-	/*aliases = <span class="pyre-component">dirichlettimedependent</span>, <span class="pyre-component">x_neg</span>*/
-
 	return (
 		<div className="component-detail">
 	        <h2>
@@ -154,7 +151,7 @@ class ComponentDetail extends React.Component {
 	    
 		<h3>Component information</h3>
 		<dl className="metadata">
-		<dt>Full path</dt><dd><span className="pyre-component">[{component.fullPath}]</span></dd>
+		<dt>Full path</dt><dd><span className="pyre-component">[{fullPath}]</span></dd>
 		{description}
 	        {location}
 		<dt>Configurable as</dt><dd>{aliases}</dd>
@@ -186,6 +183,26 @@ class ComponentProperty extends React.Component {
 	);
     } // render
 } // ComponentProperty
+
+class ComponentFacility extends React.Component {
+    render() {
+	const facility = this.props.value;
+	const description = (this.props.showDescription) ? <div><dt>Description</dt><dd>{facility.description}</dd></div> : null;
+	const location = (this.props.showLocation) ? <div><dt>Set from</dt><dd>{facility.setFrom}</dd></div> : null;
+	const aliases = (facility.aliases) ? facility.aliases
+	      .map(alias => <span key={alias} className="pyre-component">{alias}</span>)
+	      .reduce((prev,curr) => {return([prev, ', ', curr])}) : null;
+	return(
+		<div><dt><span className="pyre-component">{this.props.name}</span></dt><dd><span className="python-type">{facility.class}</span>
+		<dl className="metadata">
+		{description}
+            {location}
+		<dt>Configurable as</dt><dd>{aliases}</dd>
+	    </dl>
+		</dd></div>
+	);
+    } // render
+} // ComponentFacility
 
 class DetailPanel extends React.Component {
     constructor(props) {
@@ -239,8 +256,6 @@ class Parameters extends React.Component {
 
 	// Set new selection
 	this.selected = selected;
-	console.log("handleSelected");
-	console.log(this.selected);
 	if (this.selected) {
 	    this.selected.setSelected(true);
 	    this.setState({
