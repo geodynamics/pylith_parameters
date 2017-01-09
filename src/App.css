@@ -1,33 +1,51 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-/* Font */
 body {
     font-family: 'Lucida sans', Arial, Helvetica;
     font-size: small;
 }
 
+aside {
+    position: fixed;
+    right: 0;
+    top: 100px;
+    width: 48%;
+}
+h1 {
+    font-size: large;
+}
+h2 {
+    font-size: medium;
+}
+h3 {
+    font-size: small;
+    margin-top: 0.5em;
+    margin-bottom: 0.2em;
+}
+
+.python-type {
+    color: #c90003;
+}
+.python-type-selected {
+    color: #c90003;
+    background: #cccccc;
+}
+.pyre-component {
+    color: #227eff;
+}
+li .pyre-component,
+dt .pyre-component {
+    font-weight: bold;
+}
+.pyre-property {
+    color: #009900;
+}
+dt .pyre-property {
+    font-weight: bold;
+}
+.selected {
+    background: #cccccc;
+}
+
+/* Hierarchy */
 .component-hierarchy,
 .component-hierarchy *
 {
@@ -81,29 +99,14 @@ body {
     -moz-user-select: none;
     user-select: none;
 }
-
-
-.component-hierarchy label:not([for])
-{
-    margin: 0 8px 0 0;
+.hierarchy-settings button {
+    padding: 1px;
+    margin: 5px;
 }
 
-aside {
-    position: fixed;
-    right: 0;
-    top: 80px;
-    width: 48%;
-}
-h1 {
-    font-size: large;
-}
-h2 {
-    font-size: medium;
-}
-h3 {
-    font-size: small;
-    margin-top: 0.5em;
-    margin-bottom: 0.2em;
+/* Detail panel */
+.detail-settings label {
+    padding-right: 10px;
 }
 dl {
     margin-top: 0.1em;
@@ -125,28 +128,4 @@ dd::before {
 }
 dd {
     padding-bottom: 0.2em;
-}
-
-.python-type {
-    color: #c90003;
-}
-.python-type-selected {
-    color: #c90003;
-    background: #cccccc;
-}
-.pyre-component {
-    color: #227eff;
-}
-label .pyre-component,
-dt .pyre-component {
-    font-weight: bold;
-}
-.pyre-property {
-    color: #009900;
-}
-dt .pyre-property {
-    font-weight: bold;
-}
-.selected {
-    background: #cccccc;
 }
