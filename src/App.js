@@ -5,10 +5,7 @@ import './App.css';
 // :TODO:
 // File selector
 // Version
-// Hierarchy
-//   expand all
-//   collapse all
-// Detail
+// Typecheck with PropTypes
 
 var parameters = require('./sample.json');
 
@@ -22,11 +19,24 @@ class ComponentAvatar extends React.Component {
 
     } // constructor
 
+    getFacility() {
+	return this.props.facility;
+    } // getFacility
+    
+    getComponent() {
+	return this.props.value;
+    } // getComponent
+
+    setShowChildren(value) {
+	this.setState({
+	    showChildren: value
+	});
+    } // setShowChildren
+    
     handleCollapseClick(event) {
 	event.stopPropagation();
 	this.setState({
-	    showChildren: !this.state.showChildren,
-	    selected: false
+	    showChildren: !this.state.showChildren
 	});
     } // handleClick
 
@@ -36,15 +46,6 @@ class ComponentAvatar extends React.Component {
 	});
     } // setSelected 
 
-
-    getFacility() {
-	return this.props.facility;
-    } // getFacility
-    
-    getComponent() {
-	return this.props.value;
-    } // getComponent
-    
     handleDetailClick(event) {
 	event.stopPropagation();
 
@@ -76,17 +77,26 @@ class ComponentAvatar extends React.Component {
 } // ComponentAvatar
 
 class HierarchyPanel extends React.Component {
+
+    handleCollapseClick() {
+	this.component.setShowChildren(false);
+    } // handleCollapseClick
+
+    handleExpandClick() {
+	this.component.setShowChildren(true);
+    } // handleExpandClick
+
     render() {
 	return (
 		<div className="component-hierarchy">
 		<article>
 		<section>
 		<div className="hierarchy-settings">
-		<button >Expand all</button>
-		<button >Collapse all</button>
+		<button onClick={() => this.handleExpandClick()}>Expand all</button>
+		<button onClick={() => this.handleCollapseClick()}>Collapse all</button>
 		</div>
 		<ul>
-		<ComponentAvatar key="application" facility="application" value={this.props.application} prefix={null} handleSelection={this.props.handleSelection} />
+		<ComponentAvatar key="application" facility="application" value={this.props.application} prefix={null} handleSelection={this.props.handleSelection} ref={(obj) => { this.component = obj; }}/>
 		</ul>
 		</section>
 		</article>
@@ -270,12 +280,36 @@ class Parameters extends React.Component {
 } // Parameters
 
 
+class FileSelector extends React.Component {    
+    render() {
+	return (
+	    <input type="file" id="filename" onChange={(event) => { console.log(event.target.files[0]); this.props.handleChange(event.target.files[0])}}/>
+	);
+    } // render
+} // FileSelector
+
 class App extends React.Component {
+    loadParameters(filename) {
+	console.log(filename);
+
+	if (!window.FileReader) {
+	    alert("error");
+	} // if
+
+	var reader = new FileReader();
+	reader.onload = function() {
+	    console.log(reader.result);
+
+	    var data = JSON.parse(reader.result);
+	    console.log(data);
+	};
+	reader.readAsDataURL(filename);
+    } // loadParameters
+
     render() {
 	return (
 	    <div>
-		<p>ADD HEADER HERE; File selector;
-		</p>
+		<FileSelector handleChange={(filename) => this.loadParameters(filename)} />
 		<Tabs selectedIndex={1}>
            	    <TabList>
 	                <Tab>Version</Tab>

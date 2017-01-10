@@ -8,5 +8,3 @@ Web-browser application to view PyLith parameters.
 npm install
 npm start
 ```
-
-
