@@ -6,7 +6,7 @@ body {
 aside {
     position: fixed;
     right: 0;
-    top: 100px;
+    top: 120px;
     width: 48%;
 }
 h1 {
@@ -43,6 +43,15 @@ dt .pyre-property {
 }
 .selected {
     background: #cccccc;
+}
+p.null-selection {
+    font-style: italic;
+}
+
+/* File selector */
+.file-selector {
+    margin: 5px;
+    margin-bottom: 10px;
 }
 
 /* Hierarchy */

@@ -3,11 +3,9 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './App.css';
 
 // :TODO:
-// File selector
 // Version
 // Typecheck with PropTypes
-
-var parameters = require('./sample.json');
+// Can only update a mounted or mounting component. This usually means you called setState() on an unmounted component. This is a no-op. Please check the code for the ComponentAvatar component.
 
 class ComponentAvatar extends React.Component {
     constructor(props) {
@@ -54,6 +52,9 @@ class ComponentAvatar extends React.Component {
     } // handleClick
     
     render() {
+	if (!this.props.value) {
+	    return (<p className="null-selection">No components.</p>);
+	} // if
 	const componentClass = this.state.showChildren ? 'pyre-component-expanded' : 'pyre-component-collapsed';
 	const pythonClass = this.state.selected ? 'python-type-selected' : 'python-type';
 
@@ -89,6 +90,7 @@ class HierarchyPanel extends React.Component {
     render() {
 	return (
 		<div className="component-hierarchy">
+		<h2>Component Hierarchy</h2>
 		<article>
 		<section>
 		<div className="hierarchy-settings">
@@ -110,7 +112,7 @@ class ComponentDetail extends React.Component {
 	const selected = this.props.selected;
 	const component = (selected) ? selected.getComponent() : null;
 	if (!component) {
-	    return null;
+	    return (<p className="null-selection">No component selected.</p>);
 	} // if
 	const facility = selected.getFacility();
 
@@ -223,6 +225,7 @@ class DetailPanel extends React.Component {
 	return (
 		<div className="component-detail">
 		<aside>
+		<h2>Details for Selected Component</h2>
 		<div className="detail-settings">
 		<label><input type="checkbox" defaultChecked={this.state.showDescription} onChange={() => this.handleDescriptionChange()} />Show description</label>
 		<label><input type="checkbox" defaultChecked={this.state.showLocation} onChange={() => this.handleLocationChange()} />Show location</label>
@@ -283,43 +286,58 @@ class Parameters extends React.Component {
 class FileSelector extends React.Component {    
     render() {
 	return (
-	    <input type="file" id="filename" onChange={(event) => { console.log(event.target.files[0]); this.props.handleChange(event.target.files[0])}}/>
+	    <input type="file" id="filename" onChange={(event) => { this.props.handleChange(event.target.files[0])}}/>
 	);
     } // render
 } // FileSelector
 
 class App extends React.Component {
-    loadParameters(filename) {
-	console.log(filename);
+    constructor(props) {
+	super(props);
+
+	this.state = {
+	    parameters: null
+	};
+    } // constructor
+
+    loadParameters(filein) {
 
 	if (!window.FileReader) {
-	    alert("error");
+	    alert("Error: This browser does not implement file reading. Try a recent version of Chrome or Firefox.");
 	} // if
 
-	var reader = new FileReader();
-	reader.onload = function() {
-	    console.log(reader.result);
-
-	    var data = JSON.parse(reader.result);
-	    console.log(data);
-	};
-	reader.readAsDataURL(filename);
+	    var reader = new FileReader();
+	    reader.onload = (function(app) {
+		return function(e) {
+		    try {
+			app.setState({
+			    parameters: JSON.parse(reader.result)
+			});
+		    } catch (err) {
+			alert("Error encountered while attempting to read JSON parameter file. " + err.message);
+		    } // try/catch
+		};
+	    })(this);
+	reader.readAsText(filein);
     } // loadParameters
-
+    
     render() {
 	return (
 	    <div>
-		<FileSelector handleChange={(filename) => this.loadParameters(filename)} />
+		<h1>PyLith Parameter Viewer</h1>
+		<div className="file-selector">
+		<FileSelector handleChange={(filein) => this.loadParameters(filein)} />
+		</div>
 		<Tabs selectedIndex={1}>
            	    <TabList>
 	                <Tab>Version</Tab>
 	                <Tab>Parameters</Tab>
 	            </TabList>
                     <TabPanel>
-		<Version version={parameters.version}/>
+		<Version version={this.state.parameters ? this.state.parameters.version : null}/>
                     </TabPanel>
                     <TabPanel>
-  		<Parameters application={parameters.application}/>
+  		<Parameters application={this.state.parameters ? this.state.parameters.application : null}/>
                     </TabPanel>
 		</Tabs>
 		</div>
