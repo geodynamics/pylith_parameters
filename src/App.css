@@ -67,8 +67,9 @@ span.version {
 .component-hierarchy,
 .component-hierarchy *
 {
-    padding: 0;
+    padding: 1px;
     margin: 0;
+    margin-left: 0.2em;
     list-style: none;
 }
 
