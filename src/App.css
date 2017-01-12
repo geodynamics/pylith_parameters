@@ -54,6 +54,15 @@ p.null-selection {
     margin-bottom: 10px;
 }
 
+/* Version */
+span.file-path {
+    font-family: "monospace","Courier";
+    color: #0000ff;
+}
+span.version {
+    color: #c90003;
+}
+
 /* Hierarchy */
 .component-hierarchy,
 .component-hierarchy *
@@ -125,6 +134,9 @@ dl {
 }
 dl.metadata dt {
     font-style: italic;
+}
+div.version-package dl {
+    margin-left: 2.0em;
 }
 dt {
     float: left;
