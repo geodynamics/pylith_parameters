@@ -1,4 +1,12 @@
 {
+    "platform": {
+        "kernel": "4.4.0-59-generic",
+        "hostname": "arling",
+        "machine": "x86_64",
+        "version": "#80~14.04.1-Ubuntu SMP Fri Jan 6 18:02:02 UTC 2017",
+        "os": "Linux",
+        "processor": "x86_64"
+    },
     "version": {
 	"pylith": {
 	    "isRelease": false,
@@ -7,65 +15,63 @@
 	    "gitRevision": "v2.1.4-3-gf0a82d2",
 	    "gitHash": "f0a82d205ce564f4b89df42b4b9e84ac6919d5ae"
 	},
-	"dependencies": {
-	    "petsc": {
-		"isRelease": false,
-		"gitDate": "2016-11-03 12:19:17 -0500",
-		"gitBranch": "knepley/pylith",
-		"gitRevision": "v3.7.4-2198-g5e9aef4",
-		"petscDir": "/tools/common/petsc-dev",
-		"petscArch": "arch-gcc-4.8.2_debug"
-	    },
-	    "mpi": {
-		"standard": "3.0",
-		"implementation": "OpenMPI",
-		"version": "1.8.1"
-	    },
-	    "hdf5": {
-		"version": "1.8.11"
-	    },
-	    "netcdf": {
-		"version": "4.4.1"
-	    },
-	    "spatialdata": {
-		"isRelease": false,
-		"gitDate": "2016-11-03 16:20:01 -0700",
-		"gitBranch": "master",
-		"gitRevision": "v1.9.7-1-g1b34bdf",
-		"gitHash": "unknown"
-	    },
-	    "proj4": {
-		"version": "480"
-	    },
-	    "python": {
-		"version": "2.7.6",
-		"compiler": "GCC 4.8.4",
-		"executable": "/tools/common/cig/gcc-4.8.2/bin/nemesis",
-		"modules": {
-		    "numpy": {
-			"version": "1.8.2",
-			"location": "/usr/lib/python2.7/dist-packages/numpy"
-		    },
-		    "spatialdata": {
-			"version": "1.9.7",
-			"location": "/tools/common/cig/gcc-4.8.2/lib/python2.7/site-packages/spatialdata"
-		    },
-		    "FIAT": {
-			"version": "0.9.9",
-			"location": "/tools/common/python-tools/gcc-4.8.2/lib/python2.7/site-packages/FIAT"
-		    },
-		    "h5py": {
-			"version": "2.2.1",
-			"location": "/tools/common/hdf5-1.8.11/gcc-4.8.2/lib/python2.7/site-packages/h5py"
-		    },
-		    "netCDF4": {
-			"version": "1.1.8",
-			"location": "/tools/common/netcdf-4.4.1/gcc-4.8.2/lib/python2.7/site-packages/netCDF4-1.1.8-py2.7-linux-x86_64.egg/netCDF4"
-		    },
-		    "pyre": {
-			"version": "0.8.1",
-			"location": "/tools/common/cig/gcc-4.8.2/lib/python2.7/site-packages/pythia-0.8.1.18-py2.7.egg/pyre"
-		    }
+	"petsc": {
+	    "isRelease": false,
+	    "gitDate": "2016-11-03 12:19:17 -0500",
+	    "gitBranch": "knepley/pylith",
+	    "gitRevision": "v3.7.4-2198-g5e9aef4",
+	    "petscDir": "/tools/common/petsc-dev",
+	    "petscArch": "arch-gcc-4.8.2_debug"
+	},
+	"mpi": {
+	    "standard": "3.0",
+	    "implementation": "OpenMPI",
+	    "version": "1.8.1"
+	},
+	"hdf5": {
+	    "version": "1.8.11"
+	},
+	"netcdf": {
+	    "version": "4.4.1"
+	},
+	"spatialdata": {
+	    "isRelease": false,
+	    "gitDate": "2016-11-03 16:20:01 -0700",
+	    "gitBranch": "master",
+	    "gitRevision": "v1.9.7-1-g1b34bdf",
+	    "gitHash": "unknown"
+	},
+	"proj4": {
+	    "version": "480"
+	},
+	"python": {
+	    "version": "2.7.6",
+	    "compiler": "GCC 4.8.4",
+	    "executable": "/tools/common/cig/gcc-4.8.2/bin/nemesis",
+	    "modules": {
+		"numpy": {
+		    "version": "1.8.2",
+		    "location": "/usr/lib/python2.7/dist-packages/numpy"
+		},
+		"spatialdata": {
+		    "version": "1.9.7",
+		    "location": "/tools/common/cig/gcc-4.8.2/lib/python2.7/site-packages/spatialdata"
+		},
+		"FIAT": {
+		    "version": "0.9.9",
+		    "location": "/tools/common/python-tools/gcc-4.8.2/lib/python2.7/site-packages/FIAT"
+		},
+		"h5py": {
+		    "version": "2.2.1",
+		    "location": "/tools/common/hdf5-1.8.11/gcc-4.8.2/lib/python2.7/site-packages/h5py"
+		},
+		"netCDF4": {
+		    "version": "1.1.8",
+		    "location": "/tools/common/netcdf-4.4.1/gcc-4.8.2/lib/python2.7/site-packages/netCDF4-1.1.8-py2.7-linux-x86_64.egg/netCDF4"
+		},
+		"pyre": {
+		    "version": "0.8.1",
+		    "location": "/tools/common/cig/gcc-4.8.2/lib/python2.7/site-packages/pythia-0.8.1.18-py2.7.egg/pyre"
 		}
 	    }
 	}
@@ -172,5 +178,6 @@
 		}
 	    }
 	}
-    }
+    },
+    "timestamp": "2014-01-12T14:55:35.884861"
 }

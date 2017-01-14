@@ -6,6 +6,7 @@ import './App.css';
 // Refresh button
 // Version
 // Typecheck with PropTypes
+// Expand all doesn't expand hidden children
 // Can only update a mounted or mounting component. This usually means you called setState() on an unmounted component. This is a no-op. Please check the code for the ComponentAvatar component.
 
 class ComponentAvatar extends React.Component {
@@ -238,6 +239,25 @@ class DetailPanel extends React.Component {
     } // render
 } // DetailPanel
 
+class VersionPlatform extends React.Component {
+    render() {
+	return (
+		<div className="version-package">
+		<h3>Platform</h3>
+		<dl>
+		<dt>Hostname</dt><dd>{this.props.value.hostname}</dd>
+		<dt>Operating system</dt><dd>{this.props.value.os}</dd>
+		<dt>Kernel</dt><dd>{this.props.value.kernel}</dd>
+		<dt>Version</dt><dd>{this.props.value.version}</dd>
+		<dt>Processor</dt><dd>{this.props.value.processor}</dd>
+		<dt>Machine</dt><dd>{this.props.value.machine}</dd>
+		</dl>
+		</div>
+	);
+    } // render
+} // VersionSimple
+
+
 class VersionSimple extends React.Component {
     render() {
 	return (
@@ -353,22 +373,20 @@ class Version extends React.Component {
 	    return null;
 	} // if
 
-	const pylith = this.props.version.pylith;
-	const dependencies = this.props.version.dependencies;
-
-	// :TODO:
+	const version = this.props.version;
 
 	return (
 		<div className="version">
-		<VersionGit name="PyLith" value={pylith} />
+		<VersionPlatform value={this.props.platform} />
+		<VersionGit name="PyLith" value={version.pylith} />
 		<h2>Dependencies</h2>
-		<VersionPetsc value={dependencies.petsc} />
-		<VersionMPI value={dependencies.mpi} />
-		<VersionGit name="Spatialdata" value={dependencies.spatialdata} />
-		<VersionSimple name="Proj.4" value={dependencies.proj4} />
-		<VersionSimple name="HDF5" value={dependencies.hdf5} />
-		<VersionSimple name="NetCDF" value={dependencies.netcdf} />
-		<VersionPython value={dependencies.python} /> 
+		<VersionPetsc value={version.petsc} />
+		<VersionMPI value={version.mpi} />
+		<VersionGit name="Spatialdata" value={version.spatialdata} />
+		<VersionSimple name="Proj.4" value={version.proj} />
+		<VersionSimple name="HDF5" value={version.hdf5} />
+		<VersionSimple name="NetCDF" value={version.netcdf} />
+		<VersionPython value={version.python} /> 
 	    </div>
 	);
     } // render
@@ -410,13 +428,52 @@ class Parameters extends React.Component {
 } // Parameters
 
 
-class FileSelector extends React.Component {    
+class FileSelector extends React.Component {
+    constructor(props) {
+	super(props);
+
+	this.state = {
+	    file: null
+	};
+    } // constructor
+
+    handleFileChanged(event) {
+	this.setState({
+	    file: event.target.files[0]
+	});
+	this.props.handleChange(event.target.files[0]);
+    } // handleFileChanged
+
+    handleReload() {
+	if (this.state.file) {
+	    this.props.handleChange(this.state.file);
+	} // if
+    } // handleFileChanged
+
     render() {
 	return (
-	    <input type="file" id="filename" onChange={(event) => { this.props.handleChange(event.target.files[0])}}/>
+	    <div>
+	    <input type="file" id="filename" onChange={(event) => this.handleFileChanged(event)}/>
+		<button onClick={() => this.handleReload()}>Reload</button>
+</div>
 	);
     } // render
 } // FileSelector
+
+class TimeStamp extends React.Component {    
+    render() {
+	let tstamp = null;
+	if (this.props.value) {
+	    // Will be local time, so convert to UTC and then display as locale (expects UTC).
+	    let d = new Date(this.props.value);
+	    const now = new Date();
+	    tstamp = new Date(d.getTime() + now.getTimezoneOffset() * 60000).toString();
+	} // if
+	return (
+	    <p>Parameters time stamp: {tstamp ? tstamp : "N/A"}</p>
+	);
+    } // render
+} // TimeStamp
 
 class App extends React.Component {
     constructor(props) {
@@ -450,10 +507,11 @@ class App extends React.Component {
     
     render() {
 	return (
-	    <div>
+		<div>
+		<div className="header">
 		<h1>PyLith Parameter Viewer</h1>
-		<div className="file-selector">
 		<FileSelector handleChange={(filein) => this.loadParameters(filein)} />
+		<TimeStamp value={(this.state.parameters) ? this.state.parameters.timestamp : null} />
 		</div>
 		<Tabs selectedIndex={1}>
            	    <TabList>
@@ -461,7 +519,7 @@ class App extends React.Component {
 	                <Tab>Parameters</Tab>
 	            </TabList>
                     <TabPanel>
-		<Version version={this.state.parameters ? this.state.parameters.version : null}/>
+		<Version platform={this.state.parameters ? this.state.parameters.platform : null} version={this.state.parameters ? this.state.parameters.version : null}/>
                     </TabPanel>
                     <TabPanel>
   		<Parameters application={this.state.parameters ? this.state.parameters.application : null}/>
