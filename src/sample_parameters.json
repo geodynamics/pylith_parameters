@@ -1,0 +1,2252 @@
+{
+    "application": {
+        "properties": {
+            "start-python-debugger": {
+                "type": "bool",
+                "description": "Start python debugger at beginning of main().",
+                "value": "False",
+                "setFrom": "{default}"
+            },
+            "nodes": {
+                "type": "int",
+                "description": "number of machine nodes",
+                "value": "1",
+                "setFrom": "{default}"
+            },
+            "include-citations": {
+                "type": "bool",
+                "description": "At end of simulation, display information on how to cite PyLith and components used.",
+                "value": "False",
+                "setFrom": "{default}"
+            },
+            "initialize-only": {
+                "type": "bool",
+                "description": "Stop simulation after initializing problem.",
+                "value": "False",
+                "setFrom": "{default}"
+            }
+        },
+        "name": "pylithapp",
+        "components": {
+            "launcher": {
+                "description": "No description available.",
+                "setFrom": "{file='/tools/common/cig/gcc-4.8.2/lib/python2.7/site-packages/pythia-0.8.1.18-py2.7.egg/mpi/launchers/mpich.odb'} via {default}",
+                "class": "<mpi.LauncherMPICH.LauncherMPICH object at 0x7f084b454190>",
+                "name": "mpich",
+                "components": {},
+                "properties": {
+                    "dry": {
+                        "type": "bool",
+                        "description": "prints the command line and exits",
+                        "value": "False",
+                        "setFrom": "{default}"
+                    },
+                    "executable": {
+                        "type": "str",
+                        "description": "No description available.",
+                        "value": "",
+                        "setFrom": "{default}"
+                    },
+                    "nodelist": {
+                        "type": "slice",
+                        "description": "a comma-separated list of machine names in square brackets (e.g., [101-103,105,107])",
+                        "value": "[]",
+                        "setFrom": "{default}"
+                    },
+                    "nodegen": {
+                        "type": "str",
+                        "description": "a printf-style format string, used in conjunction with 'nodelist' to generate the list of machine names (e.g., \"n%03d\")",
+                        "value": "",
+                        "setFrom": "{default}"
+                    },
+                    "machinefile": {
+                        "type": "str",
+                        "description": "filename of machine file",
+                        "value": "mpirun.nodes",
+                        "setFrom": "{default}"
+                    },
+                    "command": {
+                        "type": "str",
+                        "description": "No description available.",
+                        "value": "mpiexec -n ${nodes}",
+                        "setFrom": "{file='/home/user/.pyre/pylithapp/pylithapp.cfg', line=3, column=-1}"
+                    },
+                    "arguments": {
+                        "type": "list",
+                        "description": "No description available.",
+                        "value": "[]",
+                        "setFrom": "{default}"
+                    },
+                    "nodes": {
+                        "type": "int",
+                        "description": "number of machine nodes",
+                        "value": "1",
+                        "setFrom": "{default}"
+                    }
+                },
+                "aliases": [
+                    "mpich",
+                    "launcher"
+                ]
+            },
+            "mesh_generator": {
+                "description": "Generates or imports the computational mesh.",
+                "setFrom": "{default}",
+                "class": "<pylith.topology.MeshImporter.MeshImporter object at 0x7f084b4a7810>",
+                "name": "meshimporter",
+                "components": {
+                    "distributor": {
+                        "description": "Mesh distributor.",
+                        "setFrom": "{default}",
+                        "class": "<pylith.topology.Distributor.Distributor; proxy of <Swig Object of type 'pylith::topology::Distributor *' at 0x7f084b453240> >",
+                        "name": "mesh_distributor",
+                        "components": {
+                            "data_writer": {
+                                "description": "Data writer for partition information.",
+                                "setFrom": "{default}",
+                                "class": "<pylith.meshio.DataWriterVTK.DataWriterVTK; proxy of <Swig Object of type 'pylith::meshio::DataWriterVTK *' at 0x7f084b436f90> >",
+                                "name": "datawritervtk",
+                                "components": {},
+                                "properties": {
+                                    "time_format": {
+                                        "type": "str",
+                                        "description": "C style format string for time stamp in filename.",
+                                        "value": "%f",
+                                        "setFrom": "{default}"
+                                    },
+                                    "time_constant": {
+                                        "type": "dimensional",
+                                        "description": "Values used to normalize time stamp in filename.",
+                                        "value": "1*s",
+                                        "setFrom": "{default}"
+                                    },
+                                    "float_precision": {
+                                        "type": "int",
+                                        "description": "Precision of floating point values in output.",
+                                        "value": "6",
+                                        "setFrom": "{default}"
+                                    },
+                                    "filename": {
+                                        "type": "str",
+                                        "description": "Name of VTK file.",
+                                        "value": "output.vtk",
+                                        "setFrom": "{default}"
+                                    }
+                                },
+                                "aliases": [
+                                    "datawritervtk",
+                                    "data_writer"
+                                ]
+                            }
+                        },
+                        "properties": {
+                            "partitioner": {
+                                "type": "str",
+                                "description": "Name of mesh partitioner.",
+                                "value": "chaco",
+                                "setFrom": "{default}"
+                            },
+                            "write_partition": {
+                                "type": "bool",
+                                "description": "Write partition information to file.",
+                                "value": "False",
+                                "setFrom": "{default}"
+                            }
+                        },
+                        "aliases": [
+                            "mesh_distributor",
+                            "distributor"
+                        ]
+                    },
+                    "refiner": {
+                        "description": "Mesh refiner.",
+                        "setFrom": "{default}",
+                        "class": "<pylith.topology.MeshRefiner.MeshRefiner object at 0x7f084b3e2550>",
+                        "name": "refiner",
+                        "components": {},
+                        "properties": {},
+                        "aliases": [
+                            "refiner"
+                        ]
+                    },
+                    "reader": {
+                        "description": "Mesh reader.",
+                        "setFrom": "{imported} via {file='./pylithapp.cfg', line=32, column=-1}",
+                        "class": "<pylith.meshio.MeshIOCubit.MeshIOCubit; proxy of <Swig Object of type 'pylith::meshio::MeshIOCubit *' at 0x7f084b4531b0> >",
+                        "name": "meshiocubit",
+                        "components": {
+                            "coordsys": {
+                                "description": "Coordinate system associated with mesh.",
+                                "setFrom": "{default}",
+                                "class": "<spatialdata.geocoords.CSCart.CSCart; proxy of <Swig Object of type 'spatialdata::geocoords::CSCart *' at 0x7f084b453090> >",
+                                "name": "cscart",
+                                "components": {},
+                                "properties": {
+                                    "space_dim": {
+                                        "type": "int",
+                                        "description": "Number of dimensions for coordinate system.",
+                                        "value": "3",
+                                        "setFrom": "{default}"
+                                    },
+                                    "units": {
+                                        "type": "str",
+                                        "description": "Units of coordinates.",
+                                        "value": "m",
+                                        "setFrom": "{default}"
+                                    }
+                                },
+                                "aliases": [
+                                    "cscart",
+                                    "coordsys"
+                                ]
+                            }
+                        },
+                        "properties": {
+                            "use_nodeset_names": {
+                                "type": "bool",
+                                "description": "Use nodeset names instead of ids.",
+                                "value": "True",
+                                "setFrom": "{default}"
+                            },
+                            "filename": {
+                                "type": "str",
+                                "description": "Name of Cubit Exodus file.",
+                                "value": "mesh/box_hex8_1000m.exo",
+                                "setFrom": "{file='./pylithapp.cfg', line=40, column=-1}"
+                            }
+                        },
+                        "aliases": [
+                            "meshiocubit",
+                            "reader"
+                        ]
+                    }
+                },
+                "properties": {
+                    "debug": {
+                        "type": "bool",
+                        "description": "Debugging flag for mesh.",
+                        "value": "False",
+                        "setFrom": "{default}"
+                    },
+                    "interpolate": {
+                        "type": "bool",
+                        "description": "Build intermediate mesh topology elements",
+                        "value": "False",
+                        "setFrom": "{default}"
+                    },
+                    "reorder_mesh": {
+                        "type": "bool",
+                        "description": "Reorder mesh using reverse Cuthill-McKee.",
+                        "value": "False",
+                        "setFrom": "{default}"
+                    }
+                },
+                "aliases": [
+                    "meshimporter",
+                    "mesh_generator"
+                ]
+            },
+            "petsc": {
+                "description": "Manager for PETSc options.",
+                "setFrom": "{file='/tools/common/cig/gcc-4.8.2/lib/python2.7/site-packages/pythia-0.8.1.18-py2.7.egg/pyre/inventory/ConfigurableClass.py', line=24, function='__set__'}",
+                "class": "<pylith.utils.PetscManager.PetscManager object at 0x7f084b442ed0>",
+                "name": "petsc",
+                "components": {},
+                "properties": {},
+                "aliases": [
+                    "petsc"
+                ]
+            },
+            "job": {
+                "description": "No description available.",
+                "setFrom": "{default}",
+                "class": "<pyre.schedulers.Job.Job object at 0x7f084b442790>",
+                "name": "job",
+                "components": {},
+                "properties": {
+                    "queue": {
+                        "type": "str",
+                        "description": "No description available.",
+                        "value": "",
+                        "setFrom": "{default}"
+                    },
+                    "executable": {
+                        "type": "str",
+                        "description": "No description available.",
+                        "value": "",
+                        "setFrom": "{default}"
+                    },
+                    "name": {
+                        "type": "str",
+                        "description": "No description available.",
+                        "value": "",
+                        "setFrom": "{default}"
+                    },
+                    "stdout": {
+                        "type": "str",
+                        "description": "No description available.",
+                        "value": "stdout.txt",
+                        "setFrom": "{default}"
+                    },
+                    "stdin": {
+                        "type": "str",
+                        "description": "No description available.",
+                        "value": "/dev/null",
+                        "setFrom": "{default}"
+                    },
+                    "comments": {
+                        "type": "list",
+                        "description": "No description available.",
+                        "value": "[]",
+                        "setFrom": "{default}"
+                    },
+                    "environment": {
+                        "type": "list",
+                        "description": "No description available.",
+                        "value": "[]",
+                        "setFrom": "{default}"
+                    },
+                    "arguments": {
+                        "type": "list",
+                        "description": "No description available.",
+                        "value": "[]",
+                        "setFrom": "{default}"
+                    },
+                    "stderr": {
+                        "type": "str",
+                        "description": "No description available.",
+                        "value": "stderr.txt",
+                        "setFrom": "{default}"
+                    },
+                    "mail": {
+                        "type": "bool",
+                        "description": "No description available.",
+                        "value": "False",
+                        "setFrom": "{default}"
+                    },
+                    "walltime": {
+                        "type": "dimensional",
+                        "description": "No description available.",
+                        "value": "0*s",
+                        "setFrom": "{default}"
+                    }
+                },
+                "aliases": [
+                    "job"
+                ]
+            },
+            "scheduler": {
+                "description": "No description available.",
+                "setFrom": "{file='/tools/common/cig/gcc-4.8.2/lib/python2.7/site-packages/pythia-0.8.1.18-py2.7.egg/pyre/schedulers/none.odb'} via {default}",
+                "class": "<pyre.schedulers.SchedulerNone.SchedulerNone object at 0x7f084b454850>",
+                "name": "scheduler-none",
+                "components": {},
+                "properties": {
+                    "dry": {
+                        "type": "bool",
+                        "description": "don't actually run the job; just print the batch script",
+                        "value": "False",
+                        "setFrom": "{default}"
+                    },
+                    "shell": {
+                        "type": "str",
+                        "description": "shell for #! line of batch scripts",
+                        "value": "/bin/sh",
+                        "setFrom": "{default}"
+                    },
+                    "wait": {
+                        "type": "bool",
+                        "description": "wait for the job to finish",
+                        "value": "True",
+                        "setFrom": "{default}"
+                    }
+                },
+                "aliases": [
+                    "scheduler-none",
+                    "scheduler"
+                ]
+            },
+            "problem": {
+                "description": "Computational problem to solve.",
+                "setFrom": "{default}",
+                "class": "<pylith.problems.TimeDependent.TimeDependent object at 0x7f084b44a150>",
+                "name": "timedependent",
+                "components": {
+                    "normalizer": {
+                        "description": "Nondimensionalizer for problem.",
+                        "setFrom": "{default}",
+                        "class": "<spatialdata.units.NondimElasticQuasistatic.NondimElasticQuasistatic; proxy of <Swig Object of type 'spatialdata::units::Nondimensional *' at 0x7f084b3c6f30> >",
+                        "name": "nondimelasticquasistatic",
+                        "components": {},
+                        "properties": {
+                            "shear_modulus": {
+                                "type": "dimensional",
+                                "description": "Shear modulus to nondimensionalize pressure.",
+                                "value": "3e+10*m**-1*kg*s**-2",
+                                "setFrom": "{default}"
+                            },
+                            "length_scale": {
+                                "type": "dimensional",
+                                "description": "Value to nondimensionalize length scale.",
+                                "value": "1000*m",
+                                "setFrom": "{default}"
+                            },
+                            "relaxation_time": {
+                                "type": "dimensional",
+                                "description": "Relaxation time to nondimensionalize time.",
+                                "value": "3.15576e+07*s",
+                                "setFrom": "{default}"
+                            }
+                        },
+                        "aliases": [
+                            "nondimelasticquasistatic",
+                            "normalizer"
+                        ]
+                    },
+                    "bc": {
+                        "description": "Boundary conditions.",
+                        "setFrom": "{built-in} via {file='step01.cfg', line=41, column=-1}",
+                        "class": "<pyre.inventory.FacilityArrayFacility.FacilityArray object at 0x7f084b3c2790>",
+                        "name": "bc",
+                        "components": {
+                            "z_neg": {
+                                "description": "No description available.",
+                                "setFrom": "{default}",
+                                "class": "<pylith.bc.DirichletBC.DirichletBC; proxy of <Swig Object of type 'pylith::bc::DirichletBC *' at 0x7f084b37f0f0> >",
+                                "name": "dirichletbc",
+                                "components": {
+                                    "db_change": {
+                                        "description": "Database with temporal change in values.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084b0ab2d0>",
+                                        "name": "nullcomponent",
+                                        "components": {},
+                                        "properties": {},
+                                        "aliases": [
+                                            "nullcomponent",
+                                            "db_change"
+                                        ]
+                                    },
+                                    "db_rate": {
+                                        "description": "Database with rate of change values.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084b0ab110>",
+                                        "name": "nullcomponent",
+                                        "components": {},
+                                        "properties": {},
+                                        "aliases": [
+                                            "nullcomponent",
+                                            "db_rate"
+                                        ]
+                                    },
+                                    "th_change": {
+                                        "description": "Database with time history.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084b0ab3d0>",
+                                        "name": "nullcomponent",
+                                        "components": {},
+                                        "properties": {},
+                                        "aliases": [
+                                            "nullcomponent",
+                                            "th_change"
+                                        ]
+                                    },
+                                    "perf_logger": {
+                                        "description": "Performance and memory logging.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.perf.MemoryLogger.MemoryLogger object at 0x7f084b0ab4d0>",
+                                        "name": "memory_logger",
+                                        "components": {},
+                                        "properties": {
+                                            "include_dealloc": {
+                                                "type": "bool",
+                                                "description": "Subtract deallocated memory when reporting.",
+                                                "value": "True",
+                                                "setFrom": "{default}"
+                                            },
+                                            "verbose": {
+                                                "type": "bool",
+                                                "description": "Print information to the screen.",
+                                                "value": "False",
+                                                "setFrom": "{default}"
+                                            }
+                                        },
+                                        "aliases": [
+                                            "memory_logger",
+                                            "perf_logger"
+                                        ]
+                                    },
+                                    "db_initial": {
+                                        "description": "Database of parameters for initial values.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.bc.ZeroDispDB.ZeroDispDB; proxy of <Swig Object of type 'spatialdata::spatialdb::UniformDB *' at 0x7f084b37f270> >",
+                                        "name": "zerodispdb",
+                                        "components": {},
+                                        "properties": {
+                                            "values": {
+                                                "type": "list",
+                                                "description": "Names of values in spatial database.",
+                                                "value": "[]",
+                                                "setFrom": "{default}"
+                                            },
+                                            "data": {
+                                                "type": "list",
+                                                "description": "Values in spatial database.",
+                                                "value": "[]",
+                                                "setFrom": "{default}"
+                                            },
+                                            "label": {
+                                                "type": "str",
+                                                "description": "No description available.",
+                                                "value": "Dirichlet BC on -z",
+                                                "setFrom": "{file='step01.cfg', line=93, column=-1}"
+                                            }
+                                        },
+                                        "aliases": [
+                                            "zerodispdb",
+                                            "db_initial"
+                                        ]
+                                    }
+                                },
+                                "properties": {
+                                    "bc_dof": {
+                                        "type": "list",
+                                        "description": "Indices of boundary condition DOF (0=1st DOF, 1=2nd DOF, etc).",
+                                        "value": "[2]",
+                                        "setFrom": "{file='step01.cfg', line=91, column=-1}"
+                                    },
+                                    "up_dir": {
+                                        "type": "list",
+                                        "description": "Direction perpendicular to horizontal tangent direction that is not collinear with normal direction.",
+                                        "value": "[0, 0, 1]",
+                                        "setFrom": "{default}"
+                                    },
+                                    "label": {
+                                        "type": "str",
+                                        "description": "Label identifier for boundary.",
+                                        "value": "face_zneg",
+                                        "setFrom": "{file='step01.cfg', line=92, column=-1}"
+                                    }
+                                },
+                                "aliases": [
+                                    "dirichletbc",
+                                    "z_neg"
+                                ]
+                            },
+                            "x_pos": {
+                                "description": "No description available.",
+                                "setFrom": "{default}",
+                                "class": "<pylith.bc.DirichletBC.DirichletBC; proxy of <Swig Object of type 'pylith::bc::DirichletBC *' at 0x7f084b3c6fc0> >",
+                                "name": "dirichletbc",
+                                "components": {
+                                    "db_change": {
+                                        "description": "Database with temporal change in values.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084b38f850>",
+                                        "name": "nullcomponent",
+                                        "components": {},
+                                        "properties": {},
+                                        "aliases": [
+                                            "nullcomponent",
+                                            "db_change"
+                                        ]
+                                    },
+                                    "db_rate": {
+                                        "description": "Database with rate of change values.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084b38f6d0>",
+                                        "name": "nullcomponent",
+                                        "components": {},
+                                        "properties": {},
+                                        "aliases": [
+                                            "nullcomponent",
+                                            "db_rate"
+                                        ]
+                                    },
+                                    "th_change": {
+                                        "description": "Database with time history.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084b398150>",
+                                        "name": "nullcomponent",
+                                        "components": {},
+                                        "properties": {},
+                                        "aliases": [
+                                            "nullcomponent",
+                                            "th_change"
+                                        ]
+                                    },
+                                    "perf_logger": {
+                                        "description": "Performance and memory logging.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.perf.MemoryLogger.MemoryLogger object at 0x7f084b398250>",
+                                        "name": "memory_logger",
+                                        "components": {},
+                                        "properties": {
+                                            "include_dealloc": {
+                                                "type": "bool",
+                                                "description": "Subtract deallocated memory when reporting.",
+                                                "value": "True",
+                                                "setFrom": "{default}"
+                                            },
+                                            "verbose": {
+                                                "type": "bool",
+                                                "description": "Print information to the screen.",
+                                                "value": "False",
+                                                "setFrom": "{default}"
+                                            }
+                                        },
+                                        "aliases": [
+                                            "memory_logger",
+                                            "perf_logger"
+                                        ]
+                                    },
+                                    "db_initial": {
+                                        "description": "Database of parameters for initial values.",
+                                        "setFrom": "{imported} via {file='step01.cfg', line=77, column=-1}",
+                                        "class": "<spatialdata.spatialdb.SimpleDB.SimpleDB; proxy of <Swig Object of type 'spatialdata::spatialdb::SimpleDB *' at 0x7f084b37f150> >",
+                                        "name": "simpledb",
+                                        "components": {
+                                            "iohandler": {
+                                                "description": "I/O handler for database.",
+                                                "setFrom": "{default}",
+                                                "class": "<spatialdata.spatialdb.SimpleIOAscii.SimpleIOAscii; proxy of <Swig Object of type 'spatialdata::spatialdb::SimpleIOAscii *' at 0x7f084b37f0c0> >",
+                                                "name": "simpleioascii",
+                                                "components": {},
+                                                "properties": {
+                                                    "filename": {
+                                                        "type": "str",
+                                                        "description": "Name of database file.",
+                                                        "value": "spatialdb/fixeddisp_axial_shear.spatialdb",
+                                                        "setFrom": "{file='step01.cfg', line=79, column=-1}"
+                                                    }
+                                                },
+                                                "aliases": [
+                                                    "simpleioascii",
+                                                    "iohandler"
+                                                ]
+                                            }
+                                        },
+                                        "properties": {
+                                            "query_type": {
+                                                "type": "str",
+                                                "description": "Type of query to perform.",
+                                                "value": "nearest",
+                                                "setFrom": "{default}"
+                                            },
+                                            "label": {
+                                                "type": "str",
+                                                "description": "Descriptive label for database.",
+                                                "value": "Dirichlet BC on +x",
+                                                "setFrom": "{file='step01.cfg', line=78, column=-1}"
+                                            }
+                                        },
+                                        "aliases": [
+                                            "simpledb",
+                                            "db_initial"
+                                        ]
+                                    }
+                                },
+                                "properties": {
+                                    "bc_dof": {
+                                        "type": "list",
+                                        "description": "Indices of boundary condition DOF (0=1st DOF, 1=2nd DOF, etc).",
+                                        "value": "[0, 1]",
+                                        "setFrom": "{file='step01.cfg', line=75, column=-1}"
+                                    },
+                                    "up_dir": {
+                                        "type": "list",
+                                        "description": "Direction perpendicular to horizontal tangent direction that is not collinear with normal direction.",
+                                        "value": "[0, 0, 1]",
+                                        "setFrom": "{default}"
+                                    },
+                                    "label": {
+                                        "type": "str",
+                                        "description": "Label identifier for boundary.",
+                                        "value": "face_xpos",
+                                        "setFrom": "{file='step01.cfg', line=76, column=-1}"
+                                    }
+                                },
+                                "aliases": [
+                                    "dirichletbc",
+                                    "x_pos"
+                                ]
+                            },
+                            "x_neg": {
+                                "description": "No description available.",
+                                "setFrom": "{default}",
+                                "class": "<pylith.bc.DirichletBC.DirichletBC; proxy of <Swig Object of type 'pylith::bc::DirichletBC *' at 0x7f084b37f120> >",
+                                "name": "dirichletbc",
+                                "components": {
+                                    "db_change": {
+                                        "description": "Database with temporal change in values.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084b1071d0>",
+                                        "name": "nullcomponent",
+                                        "components": {},
+                                        "properties": {},
+                                        "aliases": [
+                                            "nullcomponent",
+                                            "db_change"
+                                        ]
+                                    },
+                                    "db_rate": {
+                                        "description": "Database with rate of change values.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084b107150>",
+                                        "name": "nullcomponent",
+                                        "components": {},
+                                        "properties": {},
+                                        "aliases": [
+                                            "nullcomponent",
+                                            "db_rate"
+                                        ]
+                                    },
+                                    "th_change": {
+                                        "description": "Database with time history.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084b107710>",
+                                        "name": "nullcomponent",
+                                        "components": {},
+                                        "properties": {},
+                                        "aliases": [
+                                            "nullcomponent",
+                                            "th_change"
+                                        ]
+                                    },
+                                    "perf_logger": {
+                                        "description": "Performance and memory logging.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.perf.MemoryLogger.MemoryLogger object at 0x7f084b107810>",
+                                        "name": "memory_logger",
+                                        "components": {},
+                                        "properties": {
+                                            "include_dealloc": {
+                                                "type": "bool",
+                                                "description": "Subtract deallocated memory when reporting.",
+                                                "value": "True",
+                                                "setFrom": "{default}"
+                                            },
+                                            "verbose": {
+                                                "type": "bool",
+                                                "description": "Print information to the screen.",
+                                                "value": "False",
+                                                "setFrom": "{default}"
+                                            }
+                                        },
+                                        "aliases": [
+                                            "memory_logger",
+                                            "perf_logger"
+                                        ]
+                                    },
+                                    "db_initial": {
+                                        "description": "Database of parameters for initial values.",
+                                        "setFrom": "{imported} via {file='step01.cfg', line=85, column=-1}",
+                                        "class": "<spatialdata.spatialdb.SimpleDB.SimpleDB; proxy of <Swig Object of type 'spatialdata::spatialdb::SimpleDB *' at 0x7f084b37f210> >",
+                                        "name": "simpledb",
+                                        "components": {
+                                            "iohandler": {
+                                                "description": "I/O handler for database.",
+                                                "setFrom": "{default}",
+                                                "class": "<spatialdata.spatialdb.SimpleIOAscii.SimpleIOAscii; proxy of <Swig Object of type 'spatialdata::spatialdb::SimpleIOAscii *' at 0x7f084b37f1e0> >",
+                                                "name": "simpleioascii",
+                                                "components": {},
+                                                "properties": {
+                                                    "filename": {
+                                                        "type": "str",
+                                                        "description": "Name of database file.",
+                                                        "value": "spatialdb/fixeddisp_axial_shear.spatialdb",
+                                                        "setFrom": "{file='step01.cfg', line=87, column=-1}"
+                                                    }
+                                                },
+                                                "aliases": [
+                                                    "simpleioascii",
+                                                    "iohandler"
+                                                ]
+                                            }
+                                        },
+                                        "properties": {
+                                            "query_type": {
+                                                "type": "str",
+                                                "description": "Type of query to perform.",
+                                                "value": "nearest",
+                                                "setFrom": "{default}"
+                                            },
+                                            "label": {
+                                                "type": "str",
+                                                "description": "Descriptive label for database.",
+                                                "value": "Dirichlet BC on -x",
+                                                "setFrom": "{file='step01.cfg', line=86, column=-1}"
+                                            }
+                                        },
+                                        "aliases": [
+                                            "simpledb",
+                                            "db_initial"
+                                        ]
+                                    }
+                                },
+                                "properties": {
+                                    "bc_dof": {
+                                        "type": "list",
+                                        "description": "Indices of boundary condition DOF (0=1st DOF, 1=2nd DOF, etc).",
+                                        "value": "[0, 1]",
+                                        "setFrom": "{file='step01.cfg', line=83, column=-1}"
+                                    },
+                                    "up_dir": {
+                                        "type": "list",
+                                        "description": "Direction perpendicular to horizontal tangent direction that is not collinear with normal direction.",
+                                        "value": "[0, 0, 1]",
+                                        "setFrom": "{default}"
+                                    },
+                                    "label": {
+                                        "type": "str",
+                                        "description": "Label identifier for boundary.",
+                                        "value": "face_xneg",
+                                        "setFrom": "{file='step01.cfg', line=84, column=-1}"
+                                    }
+                                },
+                                "aliases": [
+                                    "dirichletbc",
+                                    "x_neg"
+                                ]
+                            }
+                        },
+                        "properties": {},
+                        "aliases": [
+                            "bc"
+                        ]
+                    },
+                    "interfaces": {
+                        "description": "Interior surfaces with constraints or constitutive models.",
+                        "setFrom": "{default}",
+                        "class": "<pylith.utils.EmptyBin.EmptyBin object at 0x7f084b3cae90>",
+                        "name": "emptybin",
+                        "components": {},
+                        "properties": {},
+                        "aliases": [
+                            "emptybin",
+                            "interfaces"
+                        ]
+                    },
+                    "checkpoint": {
+                        "description": "Checkpoint manager.",
+                        "setFrom": "{default}",
+                        "class": "<pylith.utils.CheckpointTimer.CheckpointTimer object at 0x7f084b3bf2d0>",
+                        "name": "checkpointtimer",
+                        "components": {},
+                        "properties": {
+                            "dt": {
+                                "type": "dimensional",
+                                "description": "Simulation time between checkpoints.",
+                                "value": "9.9e+99*s",
+                                "setFrom": "{default}"
+                            }
+                        },
+                        "aliases": [
+                            "checkpointtimer",
+                            "checkpoint"
+                        ]
+                    },
+                    "gravity_field": {
+                        "description": "Database used for gravity field.",
+                        "setFrom": "{default}",
+                        "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084b3bf710>",
+                        "name": "nullcomponent",
+                        "components": {},
+                        "properties": {},
+                        "aliases": [
+                            "nullcomponent",
+                            "gravity_field"
+                        ]
+                    },
+                    "materials": {
+                        "description": "Materials in problem.",
+                        "setFrom": "{built-in} via {file='./pylithapp.cfg', line=49, column=-1}",
+                        "class": "<pyre.inventory.FacilityArrayFacility.FacilityArray object at 0x7f084b3c2390>",
+                        "name": "materials",
+                        "components": {
+                            "lower_crust": {
+                                "description": "No description available.",
+                                "setFrom": "{default}",
+                                "class": "<pylith.materials.ElasticIsotropic3D.ElasticIsotropic3D; proxy of <Swig Object of type 'pylith::materials::ElasticIsotropic3D *' at 0x7f084b37f300> >",
+                                "name": "elasticisotropic3d",
+                                "components": {
+                                    "db_initial_state": {
+                                        "description": "Database for initial state variables.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084b04c510>",
+                                        "name": "nullcomponent",
+                                        "components": {},
+                                        "properties": {},
+                                        "aliases": [
+                                            "nullcomponent",
+                                            "db_initial_state"
+                                        ]
+                                    },
+                                    "quadrature": {
+                                        "description": "Quadrature object for numerical integration.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.feassemble.Quadrature.Quadrature; proxy of <Swig Object of type 'pylith::feassemble::Quadrature *' at 0x7f084b37f930> >",
+                                        "name": "quadrature",
+                                        "components": {
+                                            "cell": {
+                                                "description": "Reference cell with basis fns and quadrature rules.",
+                                                "setFrom": "{imported} via {file='./pylithapp.cfg', line=64, column=-1}",
+                                                "class": "<pylith.feassemble.FIATLagrange.FIATLagrange object at 0x7f084b0540d0>",
+                                                "name": "fiatlagrange",
+                                                "components": {},
+                                                "properties": {
+                                                    "collocate_quad": {
+                                                        "type": "bool",
+                                                        "description": "Collocate quadrature points with vertices.",
+                                                        "value": "False",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "quad_order": {
+                                                        "type": "int",
+                                                        "description": "Order of quadrature rule.",
+                                                        "value": "-1",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "dimension": {
+                                                        "type": "int",
+                                                        "description": "Dimension of finite-element cell.",
+                                                        "value": "3",
+                                                        "setFrom": "{file='./pylithapp.cfg', line=65, column=-1}"
+                                                    },
+                                                    "degree": {
+                                                        "type": "int",
+                                                        "description": "Degree of finite-element cell.",
+                                                        "value": "1",
+                                                        "setFrom": "{default}"
+                                                    }
+                                                },
+                                                "aliases": [
+                                                    "fiatlagrange",
+                                                    "cell"
+                                                ]
+                                            }
+                                        },
+                                        "properties": {
+                                            "min_jacobian": {
+                                                "type": "float",
+                                                "description": "Minimum allowable determinant of Jacobian.",
+                                                "value": "1e-06",
+                                                "setFrom": "{default}"
+                                            },
+                                            "check_conditioning": {
+                                                "type": "bool",
+                                                "description": "Check element matrices for ill-conditioning.",
+                                                "value": "False",
+                                                "setFrom": "{default}"
+                                            }
+                                        },
+                                        "aliases": [
+                                            "quadrature"
+                                        ]
+                                    },
+                                    "db_initial_stress": {
+                                        "description": "Database for initial stress.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084b04c190>",
+                                        "name": "nullcomponent",
+                                        "components": {},
+                                        "properties": {},
+                                        "aliases": [
+                                            "nullcomponent",
+                                            "db_initial_stress"
+                                        ]
+                                    },
+                                    "output": {
+                                        "description": "Output manager for elastic material information.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.meshio.OutputMatElastic.OutputMatElastic; proxy of <Swig Object of type 'pylith::meshio::OutputManager *' at 0x7f084b37f8d0> >",
+                                        "name": "outputmatelastic",
+                                        "components": {
+                                            "writer": {
+                                                "description": "Writer for data.",
+                                                "setFrom": "{default}",
+                                                "class": "<pylith.meshio.DataWriterVTK.DataWriterVTK; proxy of <Swig Object of type 'pylith::meshio::DataWriterVTK *' at 0x7f084b37f960> >",
+                                                "name": "datawritervtk",
+                                                "components": {},
+                                                "properties": {
+                                                    "time_format": {
+                                                        "type": "str",
+                                                        "description": "C style format string for time stamp in filename.",
+                                                        "value": "%f",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "time_constant": {
+                                                        "type": "dimensional",
+                                                        "description": "Values used to normalize time stamp in filename.",
+                                                        "value": "1*s",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "float_precision": {
+                                                        "type": "int",
+                                                        "description": "Precision of floating point values in output.",
+                                                        "value": "6",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "filename": {
+                                                        "type": "str",
+                                                        "description": "Name of VTK file.",
+                                                        "value": "output/step01-lower_crust.vtk",
+                                                        "setFrom": "{file='step01.cfg', line=118, column=-1}"
+                                                    }
+                                                },
+                                                "aliases": [
+                                                    "datawritervtk",
+                                                    "writer"
+                                                ]
+                                            },
+                                            "cell_filter": {
+                                                "description": "Filter for cell data.",
+                                                "setFrom": "{imported} via {file='step01.cfg', line=117, column=-1}",
+                                                "class": "<pylith.meshio.CellFilterAvg.CellFilterAvg; proxy of <Swig Object of type 'pylith::meshio::CellFilterAvg *' at 0x7f084b37f990> >",
+                                                "name": "cellfilteravg",
+                                                "components": {
+                                                    "perf_logger": {
+                                                        "description": "Performance and memory logging.",
+                                                        "setFrom": "{default}",
+                                                        "class": "<pylith.perf.MemoryLogger.MemoryLogger object at 0x7f084affd510>",
+                                                        "name": "memory_logger",
+                                                        "components": {},
+                                                        "properties": {
+                                                            "include_dealloc": {
+                                                                "type": "bool",
+                                                                "description": "Subtract deallocated memory when reporting.",
+                                                                "value": "True",
+                                                                "setFrom": "{default}"
+                                                            },
+                                                            "verbose": {
+                                                                "type": "bool",
+                                                                "description": "Print information to the screen.",
+                                                                "value": "False",
+                                                                "setFrom": "{default}"
+                                                            }
+                                                        },
+                                                        "aliases": [
+                                                            "memory_logger",
+                                                            "perf_logger"
+                                                        ]
+                                                    }
+                                                },
+                                                "properties": {},
+                                                "aliases": [
+                                                    "cellfilteravg",
+                                                    "cell_filter"
+                                                ]
+                                            },
+                                            "perf_logger": {
+                                                "description": "Performance and memory logging.",
+                                                "setFrom": "{default}",
+                                                "class": "<pylith.perf.MemoryLogger.MemoryLogger object at 0x7f084aff5490>",
+                                                "name": "memory_logger",
+                                                "components": {},
+                                                "properties": {
+                                                    "include_dealloc": {
+                                                        "type": "bool",
+                                                        "description": "Subtract deallocated memory when reporting.",
+                                                        "value": "True",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "verbose": {
+                                                        "type": "bool",
+                                                        "description": "Print information to the screen.",
+                                                        "value": "False",
+                                                        "setFrom": "{default}"
+                                                    }
+                                                },
+                                                "aliases": [
+                                                    "memory_logger",
+                                                    "perf_logger"
+                                                ]
+                                            },
+                                            "vertex_filter": {
+                                                "description": "Filter for vertex data.",
+                                                "setFrom": "{default}",
+                                                "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084aff5ad0>",
+                                                "name": "nullcomponent",
+                                                "components": {},
+                                                "properties": {},
+                                                "aliases": [
+                                                    "nullcomponent",
+                                                    "vertex_filter"
+                                                ]
+                                            },
+                                            "coordsys": {
+                                                "description": "Coordinate system for output.",
+                                                "setFrom": "{default}",
+                                                "class": "<spatialdata.geocoords.CSCart.CSCart; proxy of <Swig Object of type 'spatialdata::geocoords::CSCart *' at 0x7f084b37f9c0> >",
+                                                "name": "cscart",
+                                                "components": {},
+                                                "properties": {
+                                                    "space_dim": {
+                                                        "type": "int",
+                                                        "description": "Number of dimensions for coordinate system.",
+                                                        "value": "3",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "units": {
+                                                        "type": "str",
+                                                        "description": "Units of coordinates.",
+                                                        "value": "m",
+                                                        "setFrom": "{default}"
+                                                    }
+                                                },
+                                                "aliases": [
+                                                    "cscart",
+                                                    "coordsys"
+                                                ]
+                                            }
+                                        },
+                                        "properties": {
+                                            "time_step": {
+                                                "type": "dimensional",
+                                                "description": "Time step between output.",
+                                                "value": "1*s",
+                                                "setFrom": "{default}"
+                                            },
+                                            "skip": {
+                                                "type": "int",
+                                                "description": "Number of time steps to skip between output.",
+                                                "value": "0",
+                                                "setFrom": "{default}"
+                                            },
+                                            "output_freq": {
+                                                "type": "str",
+                                                "description": "Flag indicating whether to use 'time_step' or 'skip' to set frequency of output.",
+                                                "value": "skip",
+                                                "setFrom": "{default}"
+                                            },
+                                            "cell_data_fields": {
+                                                "type": "list",
+                                                "description": "Names of cell data fields to output.",
+                                                "value": "['total_strain', 'stress']",
+                                                "setFrom": "{default}"
+                                            },
+                                            "cell_info_fields": {
+                                                "type": "list",
+                                                "description": "Names of cell info fields to output.",
+                                                "value": "['mu', 'lambda', 'density']",
+                                                "setFrom": "{default}"
+                                            }
+                                        },
+                                        "aliases": [
+                                            "outputmatelastic",
+                                            "output"
+                                        ]
+                                    },
+                                    "perf_logger": {
+                                        "description": "Performance and memory logging.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.perf.MemoryLogger.MemoryLogger object at 0x7f084b04c610>",
+                                        "name": "memory_logger",
+                                        "components": {},
+                                        "properties": {
+                                            "include_dealloc": {
+                                                "type": "bool",
+                                                "description": "Subtract deallocated memory when reporting.",
+                                                "value": "True",
+                                                "setFrom": "{default}"
+                                            },
+                                            "verbose": {
+                                                "type": "bool",
+                                                "description": "Print information to the screen.",
+                                                "value": "False",
+                                                "setFrom": "{default}"
+                                            }
+                                        },
+                                        "aliases": [
+                                            "memory_logger",
+                                            "perf_logger"
+                                        ]
+                                    },
+                                    "db_initial_strain": {
+                                        "description": "Database for initial strain.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084b04c710>",
+                                        "name": "nullcomponent",
+                                        "components": {},
+                                        "properties": {},
+                                        "aliases": [
+                                            "nullcomponent",
+                                            "db_initial_strain"
+                                        ]
+                                    },
+                                    "db_properties": {
+                                        "description": "Database for physical property parameters.",
+                                        "setFrom": "{default}",
+                                        "class": "<spatialdata.spatialdb.SimpleDB.SimpleDB; proxy of <Swig Object of type 'spatialdata::spatialdb::SimpleDB *' at 0x7f084b37f870> >",
+                                        "name": "simpledb",
+                                        "components": {
+                                            "iohandler": {
+                                                "description": "I/O handler for database.",
+                                                "setFrom": "{default}",
+                                                "class": "<spatialdata.spatialdb.SimpleIOAscii.SimpleIOAscii; proxy of <Swig Object of type 'spatialdata::spatialdb::SimpleIOAscii *' at 0x7f084b37f8a0> >",
+                                                "name": "simpleioascii",
+                                                "components": {},
+                                                "properties": {
+                                                    "filename": {
+                                                        "type": "str",
+                                                        "description": "Name of database file.",
+                                                        "value": "spatialdb/mat_elastic.spatialdb",
+                                                        "setFrom": "{file='./pylithapp.cfg', line=63, column=-1}"
+                                                    }
+                                                },
+                                                "aliases": [
+                                                    "simpleioascii",
+                                                    "iohandler"
+                                                ]
+                                            }
+                                        },
+                                        "properties": {
+                                            "query_type": {
+                                                "type": "str",
+                                                "description": "Type of query to perform.",
+                                                "value": "nearest",
+                                                "setFrom": "{default}"
+                                            },
+                                            "label": {
+                                                "type": "str",
+                                                "description": "Descriptive label for database.",
+                                                "value": "Properties for lower crust",
+                                                "setFrom": "{file='./pylithapp.cfg', line=62, column=-1}"
+                                            }
+                                        },
+                                        "aliases": [
+                                            "simpledb",
+                                            "db_properties"
+                                        ]
+                                    }
+                                },
+                                "properties": {
+                                    "id": {
+                                        "type": "int",
+                                        "description": "Material identifier (from mesh generator).",
+                                        "value": "2",
+                                        "setFrom": "{file='./pylithapp.cfg', line=61, column=-1}"
+                                    },
+                                    "label": {
+                                        "type": "str",
+                                        "description": "Descriptive label for material.",
+                                        "value": "Lower crust material",
+                                        "setFrom": "{file='./pylithapp.cfg', line=60, column=-1}"
+                                    }
+                                },
+                                "aliases": [
+                                    "elasticisotropic3d",
+                                    "lower_crust"
+                                ]
+                            },
+                            "upper_crust": {
+                                "description": "No description available.",
+                                "setFrom": "{default}",
+                                "class": "<pylith.materials.ElasticIsotropic3D.ElasticIsotropic3D; proxy of <Swig Object of type 'pylith::materials::ElasticIsotropic3D *' at 0x7f084b37f2d0> >",
+                                "name": "elasticisotropic3d",
+                                "components": {
+                                    "db_initial_state": {
+                                        "description": "Database for initial state variables.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084b069110>",
+                                        "name": "nullcomponent",
+                                        "components": {},
+                                        "properties": {},
+                                        "aliases": [
+                                            "nullcomponent",
+                                            "db_initial_state"
+                                        ]
+                                    },
+                                    "quadrature": {
+                                        "description": "Quadrature object for numerical integration.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.feassemble.Quadrature.Quadrature; proxy of <Swig Object of type 'pylith::feassemble::Quadrature *' at 0x7f084b37f330> >",
+                                        "name": "quadrature",
+                                        "components": {
+                                            "cell": {
+                                                "description": "Reference cell with basis fns and quadrature rules.",
+                                                "setFrom": "{imported} via {file='./pylithapp.cfg', line=56, column=-1}",
+                                                "class": "<pylith.feassemble.FIATLagrange.FIATLagrange object at 0x7f084b073650>",
+                                                "name": "fiatlagrange",
+                                                "components": {},
+                                                "properties": {
+                                                    "collocate_quad": {
+                                                        "type": "bool",
+                                                        "description": "Collocate quadrature points with vertices.",
+                                                        "value": "False",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "quad_order": {
+                                                        "type": "int",
+                                                        "description": "Order of quadrature rule.",
+                                                        "value": "-1",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "dimension": {
+                                                        "type": "int",
+                                                        "description": "Dimension of finite-element cell.",
+                                                        "value": "3",
+                                                        "setFrom": "{file='./pylithapp.cfg', line=57, column=-1}"
+                                                    },
+                                                    "degree": {
+                                                        "type": "int",
+                                                        "description": "Degree of finite-element cell.",
+                                                        "value": "1",
+                                                        "setFrom": "{default}"
+                                                    }
+                                                },
+                                                "aliases": [
+                                                    "fiatlagrange",
+                                                    "cell"
+                                                ]
+                                            }
+                                        },
+                                        "properties": {
+                                            "min_jacobian": {
+                                                "type": "float",
+                                                "description": "Minimum allowable determinant of Jacobian.",
+                                                "value": "1e-06",
+                                                "setFrom": "{default}"
+                                            },
+                                            "check_conditioning": {
+                                                "type": "bool",
+                                                "description": "Check element matrices for ill-conditioning.",
+                                                "value": "False",
+                                                "setFrom": "{default}"
+                                            }
+                                        },
+                                        "aliases": [
+                                            "quadrature"
+                                        ]
+                                    },
+                                    "db_initial_stress": {
+                                        "description": "Database for initial stress.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084b0e0fd0>",
+                                        "name": "nullcomponent",
+                                        "components": {},
+                                        "properties": {},
+                                        "aliases": [
+                                            "nullcomponent",
+                                            "db_initial_stress"
+                                        ]
+                                    },
+                                    "output": {
+                                        "description": "Output manager for elastic material information.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.meshio.OutputMatElastic.OutputMatElastic; proxy of <Swig Object of type 'pylith::meshio::OutputManager *' at 0x7f084b37f2a0> >",
+                                        "name": "outputmatelastic",
+                                        "components": {
+                                            "writer": {
+                                                "description": "Writer for data.",
+                                                "setFrom": "{default}",
+                                                "class": "<pylith.meshio.DataWriterVTK.DataWriterVTK; proxy of <Swig Object of type 'pylith::meshio::DataWriterVTK *' at 0x7f084b37f630> >",
+                                                "name": "datawritervtk",
+                                                "components": {},
+                                                "properties": {
+                                                    "time_format": {
+                                                        "type": "str",
+                                                        "description": "C style format string for time stamp in filename.",
+                                                        "value": "%f",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "time_constant": {
+                                                        "type": "dimensional",
+                                                        "description": "Values used to normalize time stamp in filename.",
+                                                        "value": "1*s",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "float_precision": {
+                                                        "type": "int",
+                                                        "description": "Precision of floating point values in output.",
+                                                        "value": "6",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "filename": {
+                                                        "type": "str",
+                                                        "description": "Name of VTK file.",
+                                                        "value": "output/step01-upper_crust.vtk",
+                                                        "setFrom": "{file='step01.cfg', line=112, column=-1}"
+                                                    }
+                                                },
+                                                "aliases": [
+                                                    "datawritervtk",
+                                                    "writer"
+                                                ]
+                                            },
+                                            "cell_filter": {
+                                                "description": "Filter for cell data.",
+                                                "setFrom": "{imported} via {file='step01.cfg', line=111, column=-1}",
+                                                "class": "<pylith.meshio.CellFilterAvg.CellFilterAvg; proxy of <Swig Object of type 'pylith::meshio::CellFilterAvg *' at 0x7f084b37f690> >",
+                                                "name": "cellfilteravg",
+                                                "components": {
+                                                    "perf_logger": {
+                                                        "description": "Performance and memory logging.",
+                                                        "setFrom": "{default}",
+                                                        "class": "<pylith.perf.MemoryLogger.MemoryLogger object at 0x7f084b0320d0>",
+                                                        "name": "memory_logger",
+                                                        "components": {},
+                                                        "properties": {
+                                                            "include_dealloc": {
+                                                                "type": "bool",
+                                                                "description": "Subtract deallocated memory when reporting.",
+                                                                "value": "True",
+                                                                "setFrom": "{default}"
+                                                            },
+                                                            "verbose": {
+                                                                "type": "bool",
+                                                                "description": "Print information to the screen.",
+                                                                "value": "False",
+                                                                "setFrom": "{default}"
+                                                            }
+                                                        },
+                                                        "aliases": [
+                                                            "memory_logger",
+                                                            "perf_logger"
+                                                        ]
+                                                    }
+                                                },
+                                                "properties": {},
+                                                "aliases": [
+                                                    "cellfilteravg",
+                                                    "cell_filter"
+                                                ]
+                                            },
+                                            "perf_logger": {
+                                                "description": "Performance and memory logging.",
+                                                "setFrom": "{default}",
+                                                "class": "<pylith.perf.MemoryLogger.MemoryLogger object at 0x7f084b098f50>",
+                                                "name": "memory_logger",
+                                                "components": {},
+                                                "properties": {
+                                                    "include_dealloc": {
+                                                        "type": "bool",
+                                                        "description": "Subtract deallocated memory when reporting.",
+                                                        "value": "True",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "verbose": {
+                                                        "type": "bool",
+                                                        "description": "Print information to the screen.",
+                                                        "value": "False",
+                                                        "setFrom": "{default}"
+                                                    }
+                                                },
+                                                "aliases": [
+                                                    "memory_logger",
+                                                    "perf_logger"
+                                                ]
+                                            },
+                                            "vertex_filter": {
+                                                "description": "Filter for vertex data.",
+                                                "setFrom": "{default}",
+                                                "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084b09ffd0>",
+                                                "name": "nullcomponent",
+                                                "components": {},
+                                                "properties": {},
+                                                "aliases": [
+                                                    "nullcomponent",
+                                                    "vertex_filter"
+                                                ]
+                                            },
+                                            "coordsys": {
+                                                "description": "Coordinate system for output.",
+                                                "setFrom": "{default}",
+                                                "class": "<spatialdata.geocoords.CSCart.CSCart; proxy of <Swig Object of type 'spatialdata::geocoords::CSCart *' at 0x7f084b37f840> >",
+                                                "name": "cscart",
+                                                "components": {},
+                                                "properties": {
+                                                    "space_dim": {
+                                                        "type": "int",
+                                                        "description": "Number of dimensions for coordinate system.",
+                                                        "value": "3",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "units": {
+                                                        "type": "str",
+                                                        "description": "Units of coordinates.",
+                                                        "value": "m",
+                                                        "setFrom": "{default}"
+                                                    }
+                                                },
+                                                "aliases": [
+                                                    "cscart",
+                                                    "coordsys"
+                                                ]
+                                            }
+                                        },
+                                        "properties": {
+                                            "time_step": {
+                                                "type": "dimensional",
+                                                "description": "Time step between output.",
+                                                "value": "1*s",
+                                                "setFrom": "{default}"
+                                            },
+                                            "skip": {
+                                                "type": "int",
+                                                "description": "Number of time steps to skip between output.",
+                                                "value": "0",
+                                                "setFrom": "{default}"
+                                            },
+                                            "output_freq": {
+                                                "type": "str",
+                                                "description": "Flag indicating whether to use 'time_step' or 'skip' to set frequency of output.",
+                                                "value": "skip",
+                                                "setFrom": "{default}"
+                                            },
+                                            "cell_data_fields": {
+                                                "type": "list",
+                                                "description": "Names of cell data fields to output.",
+                                                "value": "['total_strain', 'stress']",
+                                                "setFrom": "{default}"
+                                            },
+                                            "cell_info_fields": {
+                                                "type": "list",
+                                                "description": "Names of cell info fields to output.",
+                                                "value": "['mu', 'lambda', 'density']",
+                                                "setFrom": "{default}"
+                                            }
+                                        },
+                                        "aliases": [
+                                            "outputmatelastic",
+                                            "output"
+                                        ]
+                                    },
+                                    "perf_logger": {
+                                        "description": "Performance and memory logging.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.perf.MemoryLogger.MemoryLogger object at 0x7f084b069210>",
+                                        "name": "memory_logger",
+                                        "components": {},
+                                        "properties": {
+                                            "include_dealloc": {
+                                                "type": "bool",
+                                                "description": "Subtract deallocated memory when reporting.",
+                                                "value": "True",
+                                                "setFrom": "{default}"
+                                            },
+                                            "verbose": {
+                                                "type": "bool",
+                                                "description": "Print information to the screen.",
+                                                "value": "False",
+                                                "setFrom": "{default}"
+                                            }
+                                        },
+                                        "aliases": [
+                                            "memory_logger",
+                                            "perf_logger"
+                                        ]
+                                    },
+                                    "db_initial_strain": {
+                                        "description": "Database for initial strain.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084b069310>",
+                                        "name": "nullcomponent",
+                                        "components": {},
+                                        "properties": {},
+                                        "aliases": [
+                                            "nullcomponent",
+                                            "db_initial_strain"
+                                        ]
+                                    },
+                                    "db_properties": {
+                                        "description": "Database for physical property parameters.",
+                                        "setFrom": "{default}",
+                                        "class": "<spatialdata.spatialdb.SimpleDB.SimpleDB; proxy of <Swig Object of type 'spatialdata::spatialdb::SimpleDB *' at 0x7f084b37f240> >",
+                                        "name": "simpledb",
+                                        "components": {
+                                            "iohandler": {
+                                                "description": "I/O handler for database.",
+                                                "setFrom": "{default}",
+                                                "class": "<spatialdata.spatialdb.SimpleIOAscii.SimpleIOAscii; proxy of <Swig Object of type 'spatialdata::spatialdb::SimpleIOAscii *' at 0x7f084b37f570> >",
+                                                "name": "simpleioascii",
+                                                "components": {},
+                                                "properties": {
+                                                    "filename": {
+                                                        "type": "str",
+                                                        "description": "Name of database file.",
+                                                        "value": "spatialdb/mat_elastic.spatialdb",
+                                                        "setFrom": "{file='./pylithapp.cfg', line=55, column=-1}"
+                                                    }
+                                                },
+                                                "aliases": [
+                                                    "simpleioascii",
+                                                    "iohandler"
+                                                ]
+                                            }
+                                        },
+                                        "properties": {
+                                            "query_type": {
+                                                "type": "str",
+                                                "description": "Type of query to perform.",
+                                                "value": "nearest",
+                                                "setFrom": "{default}"
+                                            },
+                                            "label": {
+                                                "type": "str",
+                                                "description": "Descriptive label for database.",
+                                                "value": "Properties for upper crust",
+                                                "setFrom": "{file='./pylithapp.cfg', line=54, column=-1}"
+                                            }
+                                        },
+                                        "aliases": [
+                                            "simpledb",
+                                            "db_properties"
+                                        ]
+                                    }
+                                },
+                                "properties": {
+                                    "id": {
+                                        "type": "int",
+                                        "description": "Material identifier (from mesh generator).",
+                                        "value": "1",
+                                        "setFrom": "{file='./pylithapp.cfg', line=53, column=-1}"
+                                    },
+                                    "label": {
+                                        "type": "str",
+                                        "description": "Descriptive label for material.",
+                                        "value": "Upper crust material",
+                                        "setFrom": "{file='./pylithapp.cfg', line=52, column=-1}"
+                                    }
+                                },
+                                "aliases": [
+                                    "elasticisotropic3d",
+                                    "upper_crust"
+                                ]
+                            }
+                        },
+                        "properties": {},
+                        "aliases": [
+                            "materials"
+                        ]
+                    },
+                    "formulation": {
+                        "description": "Simple progress monitor via text file.",
+                        "setFrom": "{default}",
+                        "class": "<pylith.problems.Implicit.Implicit; proxy of <Swig Object of type 'pylith::problems::Implicit *' at 0x7f084b3c6f60> >",
+                        "name": "implicit",
+                        "components": {
+                            "time_step": {
+                                "description": "Time step size manager.",
+                                "setFrom": "{default}",
+                                "class": "<pylith.problems.TimeStepUniform.TimeStepUniform object at 0x7f084b019890>",
+                                "name": "timestepuniform",
+                                "components": {},
+                                "properties": {
+                                    "total_time": {
+                                        "type": "dimensional",
+                                        "description": "Time duration for simulation.",
+                                        "value": "0*s",
+                                        "setFrom": "{file='step01.cfg', line=34, column=-1}"
+                                    },
+                                    "dt": {
+                                        "type": "dimensional",
+                                        "description": "Time step for simulation.",
+                                        "value": "1.57788e+08*s",
+                                        "setFrom": "{file='step01.cfg', line=37, column=-1}"
+                                    },
+                                    "start_time": {
+                                        "type": "dimensional",
+                                        "description": "Time duration for simulation.",
+                                        "value": "0*s",
+                                        "setFrom": "{default}"
+                                    }
+                                },
+                                "aliases": [
+                                    "timestepuniform",
+                                    "time_step"
+                                ]
+                            },
+                            "output": {
+                                "description": "Output managers associated with solution.",
+                                "setFrom": "{built-in} via {file='step01.cfg', line=49, column=-1}",
+                                "class": "<pyre.inventory.FacilityArrayFacility.FacilityArray object at 0x7f084b019d50>",
+                                "name": "output",
+                                "components": {
+                                    "domain": {
+                                        "description": "No description available.",
+                                        "setFrom": "{default}",
+                                        "class": "<pylith.meshio.OutputSoln.OutputSoln; proxy of <Swig Object of type 'pylith::meshio::OutputManager *' at 0x7f084b37fcf0> >",
+                                        "name": "outputsoln",
+                                        "components": {
+                                            "writer": {
+                                                "description": "Writer for data.",
+                                                "setFrom": "{default}",
+                                                "class": "<pylith.meshio.DataWriterVTK.DataWriterVTK; proxy of <Swig Object of type 'pylith::meshio::DataWriterVTK *' at 0x7f084b37fd20> >",
+                                                "name": "datawritervtk",
+                                                "components": {},
+                                                "properties": {
+                                                    "time_format": {
+                                                        "type": "str",
+                                                        "description": "C style format string for time stamp in filename.",
+                                                        "value": "%f",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "time_constant": {
+                                                        "type": "dimensional",
+                                                        "description": "Values used to normalize time stamp in filename.",
+                                                        "value": "1*s",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "float_precision": {
+                                                        "type": "int",
+                                                        "description": "Precision of floating point values in output.",
+                                                        "value": "6",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "filename": {
+                                                        "type": "str",
+                                                        "description": "Name of VTK file.",
+                                                        "value": "output/step01.vtk",
+                                                        "setFrom": "{file='step01.cfg', line=100, column=-1}"
+                                                    }
+                                                },
+                                                "aliases": [
+                                                    "datawritervtk",
+                                                    "writer"
+                                                ]
+                                            },
+                                            "cell_filter": {
+                                                "description": "Filter for cell data.",
+                                                "setFrom": "{default}",
+                                                "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084afcd050>",
+                                                "name": "nullcomponent",
+                                                "components": {},
+                                                "properties": {},
+                                                "aliases": [
+                                                    "nullcomponent",
+                                                    "cell_filter"
+                                                ]
+                                            },
+                                            "perf_logger": {
+                                                "description": "Performance and memory logging.",
+                                                "setFrom": "{default}",
+                                                "class": "<pylith.perf.MemoryLogger.MemoryLogger object at 0x7f084afc4e10>",
+                                                "name": "memory_logger",
+                                                "components": {},
+                                                "properties": {
+                                                    "include_dealloc": {
+                                                        "type": "bool",
+                                                        "description": "Subtract deallocated memory when reporting.",
+                                                        "value": "True",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "verbose": {
+                                                        "type": "bool",
+                                                        "description": "Print information to the screen.",
+                                                        "value": "False",
+                                                        "setFrom": "{default}"
+                                                    }
+                                                },
+                                                "aliases": [
+                                                    "memory_logger",
+                                                    "perf_logger"
+                                                ]
+                                            },
+                                            "vertex_filter": {
+                                                "description": "Filter for vertex data.",
+                                                "setFrom": "{default}",
+                                                "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084afcd290>",
+                                                "name": "nullcomponent",
+                                                "components": {},
+                                                "properties": {},
+                                                "aliases": [
+                                                    "nullcomponent",
+                                                    "vertex_filter"
+                                                ]
+                                            },
+                                            "coordsys": {
+                                                "description": "Coordinate system for output.",
+                                                "setFrom": "{default}",
+                                                "class": "<spatialdata.geocoords.CSCart.CSCart; proxy of <Swig Object of type 'spatialdata::geocoords::CSCart *' at 0x7f084b37fd50> >",
+                                                "name": "cscart",
+                                                "components": {},
+                                                "properties": {
+                                                    "space_dim": {
+                                                        "type": "int",
+                                                        "description": "Number of dimensions for coordinate system.",
+                                                        "value": "3",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "units": {
+                                                        "type": "str",
+                                                        "description": "Units of coordinates.",
+                                                        "value": "m",
+                                                        "setFrom": "{default}"
+                                                    }
+                                                },
+                                                "aliases": [
+                                                    "cscart",
+                                                    "coordsys"
+                                                ]
+                                            }
+                                        },
+                                        "properties": {
+                                            "skip": {
+                                                "type": "int",
+                                                "description": "Number of time steps to skip between output.",
+                                                "value": "0",
+                                                "setFrom": "{default}"
+                                            },
+                                            "output_freq": {
+                                                "type": "str",
+                                                "description": "Flag indicating whether to use 'time_step' or 'skip' to set frequency of output.",
+                                                "value": "skip",
+                                                "setFrom": "{default}"
+                                            },
+                                            "vertex_data_fields": {
+                                                "type": "list",
+                                                "description": "Names of vertex data fields to output.",
+                                                "value": "['displacement']",
+                                                "setFrom": "{default}"
+                                            },
+                                            "cell_info_fields": {
+                                                "type": "list",
+                                                "description": "Names of cell info fields to output.",
+                                                "value": "[]",
+                                                "setFrom": "{default}"
+                                            },
+                                            "time_step": {
+                                                "type": "dimensional",
+                                                "description": "Time step between output.",
+                                                "value": "1*s",
+                                                "setFrom": "{default}"
+                                            }
+                                        },
+                                        "aliases": [
+                                            "outputsoln",
+                                            "domain"
+                                        ]
+                                    },
+                                    "subdomain": {
+                                        "description": "No description available.",
+                                        "setFrom": "{imported} via {file='step01.cfg', line=52, column=-1}",
+                                        "class": "<pylith.meshio.OutputSolnSubset.OutputSolnSubset; proxy of <Swig Object of type 'pylith::meshio::OutputSolnSubset *' at 0x7f084b37fcc0> >",
+                                        "name": "outputsolnsubset",
+                                        "components": {
+                                            "writer": {
+                                                "description": "Writer for data.",
+                                                "setFrom": "{default}",
+                                                "class": "<pylith.meshio.DataWriterVTK.DataWriterVTK; proxy of <Swig Object of type 'pylith::meshio::DataWriterVTK *' at 0x7f084b37fe10> >",
+                                                "name": "datawritervtk",
+                                                "components": {},
+                                                "properties": {
+                                                    "time_format": {
+                                                        "type": "str",
+                                                        "description": "C style format string for time stamp in filename.",
+                                                        "value": "%f",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "time_constant": {
+                                                        "type": "dimensional",
+                                                        "description": "Values used to normalize time stamp in filename.",
+                                                        "value": "1*s",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "float_precision": {
+                                                        "type": "int",
+                                                        "description": "Precision of floating point values in output.",
+                                                        "value": "6",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "filename": {
+                                                        "type": "str",
+                                                        "description": "Name of VTK file.",
+                                                        "value": "output/step01-groundsurf.vtk",
+                                                        "setFrom": "{file='step01.cfg', line=106, column=-1}"
+                                                    }
+                                                },
+                                                "aliases": [
+                                                    "datawritervtk",
+                                                    "writer"
+                                                ]
+                                            },
+                                            "cell_filter": {
+                                                "description": "Filter for cell data.",
+                                                "setFrom": "{default}",
+                                                "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084af6a850>",
+                                                "name": "nullcomponent",
+                                                "components": {},
+                                                "properties": {},
+                                                "aliases": [
+                                                    "nullcomponent",
+                                                    "cell_filter"
+                                                ]
+                                            },
+                                            "perf_logger": {
+                                                "description": "Performance and memory logging.",
+                                                "setFrom": "{default}",
+                                                "class": "<pylith.perf.MemoryLogger.MemoryLogger object at 0x7f084af6a610>",
+                                                "name": "memory_logger",
+                                                "components": {},
+                                                "properties": {
+                                                    "include_dealloc": {
+                                                        "type": "bool",
+                                                        "description": "Subtract deallocated memory when reporting.",
+                                                        "value": "True",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "verbose": {
+                                                        "type": "bool",
+                                                        "description": "Print information to the screen.",
+                                                        "value": "False",
+                                                        "setFrom": "{default}"
+                                                    }
+                                                },
+                                                "aliases": [
+                                                    "memory_logger",
+                                                    "perf_logger"
+                                                ]
+                                            },
+                                            "vertex_filter": {
+                                                "description": "Filter for vertex data.",
+                                                "setFrom": "{default}",
+                                                "class": "<pylith.utils.NullComponent.NullComponent object at 0x7f084af6aa90>",
+                                                "name": "nullcomponent",
+                                                "components": {},
+                                                "properties": {},
+                                                "aliases": [
+                                                    "nullcomponent",
+                                                    "vertex_filter"
+                                                ]
+                                            },
+                                            "coordsys": {
+                                                "description": "Coordinate system for output.",
+                                                "setFrom": "{default}",
+                                                "class": "<spatialdata.geocoords.CSCart.CSCart; proxy of <Swig Object of type 'spatialdata::geocoords::CSCart *' at 0x7f084b37fe40> >",
+                                                "name": "cscart",
+                                                "components": {},
+                                                "properties": {
+                                                    "space_dim": {
+                                                        "type": "int",
+                                                        "description": "Number of dimensions for coordinate system.",
+                                                        "value": "3",
+                                                        "setFrom": "{default}"
+                                                    },
+                                                    "units": {
+                                                        "type": "str",
+                                                        "description": "Units of coordinates.",
+                                                        "value": "m",
+                                                        "setFrom": "{default}"
+                                                    }
+                                                },
+                                                "aliases": [
+                                                    "cscart",
+                                                    "coordsys"
+                                                ]
+                                            }
+                                        },
+                                        "properties": {
+                                            "time_step": {
+                                                "type": "dimensional",
+                                                "description": "Time step between output.",
+                                                "value": "1*s",
+                                                "setFrom": "{default}"
+                                            },
+                                            "skip": {
+                                                "type": "int",
+                                                "description": "Number of time steps to skip between output.",
+                                                "value": "0",
+                                                "setFrom": "{default}"
+                                            },
+                                            "output_freq": {
+                                                "type": "str",
+                                                "description": "Flag indicating whether to use 'time_step' or 'skip' to set frequency of output.",
+                                                "value": "skip",
+                                                "setFrom": "{default}"
+                                            },
+                                            "vertex_data_fields": {
+                                                "type": "list",
+                                                "description": "Names of vertex data fields to output.",
+                                                "value": "['displacement']",
+                                                "setFrom": "{default}"
+                                            },
+                                            "label": {
+                                                "type": "str",
+                                                "description": "Label identifier for subdomain.",
+                                                "value": "face_zpos",
+                                                "setFrom": "{file='step01.cfg', line=105, column=-1}"
+                                            }
+                                        },
+                                        "aliases": [
+                                            "outputsolnsubset",
+                                            "subdomain"
+                                        ]
+                                    }
+                                },
+                                "properties": {},
+                                "aliases": [
+                                    "output"
+                                ]
+                            },
+                            "perf_logger": {
+                                "description": "Performance and memory logging.",
+                                "setFrom": "{default}",
+                                "class": "<pylith.perf.MemoryLogger.MemoryLogger object at 0x7f084b022790>",
+                                "name": "memory_logger",
+                                "components": {},
+                                "properties": {
+                                    "include_dealloc": {
+                                        "type": "bool",
+                                        "description": "Subtract deallocated memory when reporting.",
+                                        "value": "True",
+                                        "setFrom": "{default}"
+                                    },
+                                    "verbose": {
+                                        "type": "bool",
+                                        "description": "Print information to the screen.",
+                                        "value": "False",
+                                        "setFrom": "{default}"
+                                    }
+                                },
+                                "aliases": [
+                                    "memory_logger",
+                                    "perf_logger"
+                                ]
+                            },
+                            "jacobian_viewer": {
+                                "description": "Writer for Jacobian sparse matrix.",
+                                "setFrom": "{default}",
+                                "class": "<pylith.topology.JacobianViewer.JacobianViewer object at 0x7f084b022890>",
+                                "name": "formulation",
+                                "components": {},
+                                "properties": {
+                                    "time_format": {
+                                        "type": "str",
+                                        "description": "C style format string for time stamp in filename.",
+                                        "value": "%f",
+                                        "setFrom": "{default}"
+                                    },
+                                    "time_constant": {
+                                        "type": "dimensional",
+                                        "description": "Values used to normalize time stamp in filename.",
+                                        "value": "1*s",
+                                        "setFrom": "{default}"
+                                    },
+                                    "filename": {
+                                        "type": "str",
+                                        "description": "Filename for Jacobian matrix.",
+                                        "value": "jacobian.mat",
+                                        "setFrom": "{default}"
+                                    }
+                                },
+                                "aliases": [
+                                    "formulation",
+                                    "jacobian_viewer"
+                                ]
+                            },
+                            "solver": {
+                                "description": "Algebraic solver.",
+                                "setFrom": "{default}",
+                                "class": "<pylith.problems.SolverLinear.SolverLinear; proxy of <Swig Object of type 'pylith::problems::SolverLinear *' at 0x7f084b37fa20> >",
+                                "name": "solverlinear",
+                                "components": {},
+                                "properties": {
+                                    "use_cuda": {
+                                        "type": "bool",
+                                        "description": "Enable use of CUDA for finite-element integrations.",
+                                        "value": "False",
+                                        "setFrom": "{default}"
+                                    },
+                                    "create_null_space": {
+                                        "type": "bool",
+                                        "description": "Create solution null space. Changing this setting should only be necessary for test problems with fewer DOF than the null space.",
+                                        "value": "True",
+                                        "setFrom": "{default}"
+                                    }
+                                },
+                                "aliases": [
+                                    "solverlinear",
+                                    "solver"
+                                ]
+                            }
+                        },
+                        "properties": {
+                            "split_fields": {
+                                "type": "bool",
+                                "description": "Split solution fields into displacements and Lagrange multipliers for separate preconditioning.",
+                                "value": "False",
+                                "setFrom": "{default}"
+                            },
+                            "use_custom_constraint_pc": {
+                                "type": "bool",
+                                "description": "Use custom preconditioner for Lagrange constraints.",
+                                "value": "False",
+                                "setFrom": "{default}"
+                            },
+                            "view_jacobian": {
+                                "type": "bool",
+                                "description": "Write Jacobian matrix to binary file.",
+                                "value": "False",
+                                "setFrom": "{default}"
+                            },
+                            "matrix_type": {
+                                "type": "str",
+                                "description": "Type of PETSc sparse matrix.",
+                                "value": "unknown",
+                                "setFrom": "{default}"
+                            }
+                        },
+                        "aliases": [
+                            "implicit",
+                            "formulation"
+                        ]
+                    },
+                    "progress_monitor": {
+                        "description": "No description available.",
+                        "setFrom": "{default}",
+                        "class": "<pylith.problems.ProgressMonitorTime.ProgressMonitorTime object at 0x7f084b3bfe90>",
+                        "name": "progressmonitortime",
+                        "components": {},
+                        "properties": {
+                            "t_units": {
+                                "type": "str",
+                                "description": "Units for simulation time in output.",
+                                "value": "year",
+                                "setFrom": "{default}"
+                            },
+                            "update_percent": {
+                                "type": "float",
+                                "description": "Frequency of progress updates (percent).",
+                                "value": "5.0",
+                                "setFrom": "{default}"
+                            },
+                            "filename": {
+                                "type": "str",
+                                "description": "Name of output file.",
+                                "value": "progress.txt",
+                                "setFrom": "{default}"
+                            }
+                        },
+                        "aliases": [
+                            "progressmonitortime",
+                            "progress_monitor"
+                        ]
+                    }
+                },
+                "properties": {
+                    "elastic_prestep": {
+                        "type": "bool",
+                        "description": "Include a static calculation with elastic behavior before time stepping.",
+                        "value": "True",
+                        "setFrom": "{default}"
+                    },
+                    "dimension": {
+                        "type": "int",
+                        "description": "Spatial dimension of problem space.",
+                        "value": "3",
+                        "setFrom": "{default}"
+                    }
+                },
+                "aliases": [
+                    "timedependent",
+                    "problem"
+                ]
+            },
+            "perf_logger": {
+                "description": "Performance and memory logging.",
+                "setFrom": "{default}",
+                "class": "<pylith.perf.MemoryLogger.MemoryLogger object at 0x7f084b4424d0>",
+                "name": "memory_logger",
+                "components": {},
+                "properties": {
+                    "include_dealloc": {
+                        "type": "bool",
+                        "description": "Subtract deallocated memory when reporting.",
+                        "value": "True",
+                        "setFrom": "{default}"
+                    },
+                    "verbose": {
+                        "type": "bool",
+                        "description": "Print information to the screen.",
+                        "value": "False",
+                        "setFrom": "{default}"
+                    }
+                },
+                "aliases": [
+                    "memory_logger",
+                    "perf_logger"
+                ]
+            }
+        },
+        "class": "<pylith.apps.PyLithApp.InfoApp object at 0x7f084b52c450>"
+    },
+    "platform": {
+        "kernel": "4.4.0-59-generic",
+        "hostname": "localhost",
+        "machine": "x86_64",
+        "version": "#80~14.04.1-Ubuntu SMP Fri Jan 6 18:02:02 UTC 2017",
+        "os": "Linux",
+        "processor": "x86_64"
+    },
+    "version": {
+        "petsc": {
+            "isRelease": false,
+            "petscArch": "arch-gcc-4.8.2_debug",
+            "petscDir": "/tools/common/petsc-dev",
+            "gitBranch": "knepley/pylith",
+            "gitDate": "2016-11-03 12:19:17 -0500",
+            "gitRevision": "v3.7.4-2198-g5e9aef4"
+        },
+        "spatialdata": {
+            "gitBranch": "master",
+            "gitDate": "2016-11-03 16:20:01 -0700",
+            "gitRevision": "v1.9.7-1-g1b34bdf",
+            "isRelease": false,
+            "gitHash": "1b34bdfaed31b2c361fbe797a5c833df01d30200"
+        },
+        "netcdf": {
+            "version": "4.4.1"
+        },
+        "proj": {
+            "version": "480"
+        },
+        "hdf5": {
+            "version": "1.8.11"
+        },
+        "python": {
+            "implementation": "CPython",
+            "version": "2.7.6",
+            "modules": {
+                "FIAT": {
+                    "version": "0.9.9",
+                    "location": "/tools/common/python-tools/gcc-4.8.2/lib/python2.7/site-packages/FIAT"
+                },
+                "spatialdata": {
+                    "version": "1.9.7",
+                    "location": "/tools/common/cig/gcc-4.8.2/lib/python2.7/site-packages/spatialdata"
+                },
+                "netCDF4": {
+                    "version": "1.1.8",
+                    "location": "/tools/common/netcdf-4.4.1/gcc-4.8.2/lib/python2.7/site-packages/netCDF4-1.1.8-py2.7-linux-x86_64.egg/netCDF4"
+                },
+                "h5py": {
+                    "version": "2.2.1",
+                    "location": "/tools/common/hdf5-1.8.11/gcc-4.8.2/lib/python2.7/site-packages/h5py"
+                },
+                "pyre": {
+                    "version": "0.8.1",
+                    "location": "/tools/common/cig/gcc-4.8.2/lib/python2.7/site-packages/pythia-0.8.1.18-py2.7.egg/pyre"
+                },
+                "numpy": {
+                    "version": "1.8.2",
+                    "location": "/usr/lib/python2.7/dist-packages/numpy"
+                }
+            },
+            "compiler": "GCC 4.8.4"
+        },
+        "pylith": {
+            "gitBranch": "next",
+            "gitDate": "2016-12-21 12:05:22 -0800",
+            "gitRevision": "v2.1.4-3-gf0a82d2",
+            "isRelease": false,
+            "gitHash": "f0a82d205ce564f4b89df42b4b9e84ac6919d5ae"
+        },
+        "mpi": {
+            "implementation": "OpenMPI",
+            "version": "1.8.1",
+            "standard": "3.0"
+        }
+    },
+    "timestamp": "2017-01-17T12:26:44.270300"
+}
