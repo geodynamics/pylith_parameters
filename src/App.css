@@ -1,14 +1,75 @@
-body {
+html body {
+    margin: 0;
+    padding: 0;
+}
+body * {
     font-family: 'Lucida sans', Arial, Helvetica;
     font-size: small;
+    box-sizing: border-box;
 }
 
-aside {
-    position: fixed;
+div.header {
+    position: absolute;
+    top: 0;
+    left: 0;
     right: 0;
-    top: 120px;
-    width: 48%;
 }
+
+.ReactTabs__TabList {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 110px;
+}
+.ReactTabs__TabPanel {
+    position: absolute;
+    top: 140px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+div.detail-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 45%;
+}
+div.component-detail {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow: auto;
+}
+
+div.component-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 55%;
+}
+div.hierarchy-list {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+}
+div.version {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+}
+
 h1 {
     font-size: large;
 }
@@ -51,7 +112,6 @@ p.null-selection {
 /* File selector */
 .file-selector {
     margin: 5px;
-    margin-bottom: 10px;
 }
 
 /* Version */
@@ -64,8 +124,8 @@ span.version {
 }
 
 /* Hierarchy */
-.component-hierarchy,
-.component-hierarchy *
+.component-panel,
+.component-panel *
 {
     padding: 1px;
     margin: 0;
@@ -102,17 +162,17 @@ span.version {
     line-height: 13px;
 }
  
-.component-hierarchy li ul
+.component-panel li ul
 {
     margin: 0 0 0 24px;
 }
  
-.component-hierarchy *
+.component-panel *
 {
     vertical-align: middle;
 }
  
-.component-hierarchy li
+.component-panel li
 {
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -133,7 +193,7 @@ dl {
     border: 0;
     padding: 0;
 }
-dl.metadata dt {
+dl.component-metadata dt {
     font-style: italic;
 }
 div.version-package dl {

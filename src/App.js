@@ -3,8 +3,6 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './App.css';
 
 // :TODO:
-// Refresh button
-// Version
 // Typecheck with PropTypes
 // Expand all doesn't expand hidden children
 // Can only update a mounted or mounting component. This usually means you called setState() on an unmounted component. This is a no-op. Please check the code for the ComponentAvatar component.
@@ -91,19 +89,17 @@ class HierarchyPanel extends React.Component {
 
     render() {
 	return (
-		<div className="component-hierarchy">
+		<div className="component-panel">
 		<h2>Component Hierarchy</h2>
-		<article>
-		<section>
 		<div className="hierarchy-settings">
 		<button onClick={() => this.handleExpandClick()}>Expand all</button>
 		<button onClick={() => this.handleCollapseClick()}>Collapse all</button>
 		</div>
+		<div className="hierarchy-list">
 		<ul>
 		<ComponentAvatar key="application" facility="application" value={this.props.application} prefix={null} handleSelection={this.props.handleSelection} ref={(obj) => { this.component = obj; }}/>
 		</ul>
-		</section>
-		</article>
+		</div>
 		</div>
 	);
     } // render
@@ -147,7 +143,7 @@ class ComponentDetail extends React.Component {
 		</h2>
 	    
 		<h3>Component information</h3>
-		<dl className="metadata">
+		<dl className="detail-metadata">
 		<dt>Full path</dt><dd><span className="pyre-component">[{fullPath}]</span></dd>
 		<dt>Configurable as</dt><dd>{aliases}</dd>
 		{description}
@@ -225,15 +221,13 @@ class DetailPanel extends React.Component {
 
     render() {
 	return (
-		<div className="component-detail">
-		<aside>
+		<div className="detail-panel">
 		<h2>Details for Selected Component</h2>
 		<div className="detail-settings">
 		<label><input type="checkbox" defaultChecked={this.state.showDescription} onChange={() => this.handleDescriptionChange()} />Show description</label>
 		<label><input type="checkbox" defaultChecked={this.state.showLocation} onChange={() => this.handleLocationChange()} />Show location</label>
 		</div>
 		<ComponentDetail selected={this.props.selected} showDescription={this.state.showDescription} showLocation={this.state.showLocation}/>
-		</aside>
 		</div>
 	);
     } // render
@@ -383,11 +377,11 @@ class Version extends React.Component {
 		<VersionPetsc value={version.petsc} />
 		<VersionMPI value={version.mpi} />
 		<VersionGit name="Spatialdata" value={version.spatialdata} />
-		<VersionSimple name="Proj.4" value={version.proj} />
+		<VersionSimple name="Proj" value={version.proj} />
 		<VersionSimple name="HDF5" value={version.hdf5} />
 		<VersionSimple name="NetCDF" value={version.netcdf} />
 		<VersionPython value={version.python} /> 
-	    </div>
+		</div>
 	);
     } // render
 } // Version
@@ -518,12 +512,12 @@ class App extends React.Component {
 	                <Tab>Version</Tab>
 	                <Tab>Parameters</Tab>
 	            </TabList>
-                    <TabPanel>
+                <TabPanel>
 		<Version platform={this.state.parameters ? this.state.parameters.platform : null} version={this.state.parameters ? this.state.parameters.version : null}/>
                     </TabPanel>
-                    <TabPanel>
+                <TabPanel>
   		<Parameters application={this.state.parameters ? this.state.parameters.application : null}/>
-                    </TabPanel>
+                </TabPanel>
 		</Tabs>
 		</div>
 	);
