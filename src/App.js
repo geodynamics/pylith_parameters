@@ -114,7 +114,7 @@ class ComponentDetail extends React.Component {
 	} // if
 	const facility = selected.getFacility();
 
-	const fullPath = (selected.props.prefix) ? selected.props.prefix + "." + selected.props.value.name : selected.props.value.name;
+	const fullPath = (selected.props.prefix) ? selected.props.prefix + "." + selected.props.facility : selected.props.value.facility;
 	const description = (this.props.showDescription) ? <div><dt>Description</dt><dd>{component.description}</dd></div> : null;
 	const location = (this.props.showLocation) ? <div><dt>Set from</dt><dd>{component.setFrom}</dd></div> : null;
 	
@@ -138,9 +138,9 @@ class ComponentDetail extends React.Component {
 
 	return (
 		<div className="component-detail">
-	        <h2>
+		<h3>
 		<span className="pyre-component">{facility}</span> = <span className="python-type">{component.class}</span>
-		</h2>
+		</h3>
 	    
 		<h3>Component information</h3>
 		<dl className="detail-metadata">

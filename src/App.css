@@ -20,11 +20,11 @@ div.header {
     left: 0;
     right: 0;
     bottom: 0;
-    top: 110px;
+    top: 8em;
 }
 .ReactTabs__TabPanel {
     position: absolute;
-    top: 140px;
+    top: 10em;
     left: 0;
     right: 0;
     bottom: 0;
@@ -39,7 +39,7 @@ div.detail-panel {
 }
 div.component-detail {
     position: absolute;
-    top: 70px;
+    top: 5em;
     right: 0;
     left: 0;
     bottom: 0;
@@ -51,11 +51,11 @@ div.component-panel {
     top: 0;
     left: 0;
     bottom: 0;
-    width: 55%;
+    width: 52%;
 }
 div.hierarchy-list {
     position: absolute;
-    top: 50px;
+    top: 4em;
     left: 0;
     right: 0;
     bottom: 0;
