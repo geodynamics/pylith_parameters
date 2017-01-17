@@ -1,3 +1,19 @@
+// -*- JavaScript -*-
+//
+// ----------------------------------------------------------------------
+//
+// Brad T. Aagaard, U.S. Geological Survey
+//
+// This code was developed as part of the Computational Infrastructure
+// for Geodynamics (http://geodynamics.org).
+//
+// Copyright (c) 2010-2016 University of California, Davis
+//
+// See COPYING for license information.
+//
+// ----------------------------------------------------------------------
+//
+
 import React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './App.css';
@@ -525,3 +541,6 @@ class App extends React.Component {
 } // App
 
 export default App;
+
+
+// End of file
