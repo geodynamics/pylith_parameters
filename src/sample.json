@@ -41,7 +41,7 @@
 	    "gitRevision": "v1.9.7-1-g1b34bdf",
 	    "gitHash": "unknown"
 	},
-	"proj4": {
+	"proj": {
 	    "version": "480"
 	},
 	"python": {
