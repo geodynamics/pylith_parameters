@@ -67,6 +67,9 @@ div.hierarchy-list {
     font-size: medium;
     line-height: 13px;
 }
+.hide {
+    display: none;
+}
  
 .component-panel li ul
 {

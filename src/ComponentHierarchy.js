@@ -41,8 +41,16 @@ class ComponentAvatar extends React.Component {
 	this.setState({
 	    showChildren: value
 	});
+
+	for (var i=0; i < this.subcomponentObjs.length; ++i) {
+	    this.subcomponentObjs[i].setShowChildren(value);
+	} // for
     } // setShowChildren
-    
+
+    componentWillUnmount() {
+	this.subcomponentObjs = null;
+    } // componentWillUnmount
+
     handleCollapseClick(event) {
 	event.stopPropagation();
 	this.setState({
@@ -67,19 +75,18 @@ class ComponentAvatar extends React.Component {
 	if (!this.props.value) {
 	    return (<p className="null-selection">No components.</p>);
 	} // if
-	const componentClass = this.state.showChildren ? 'pyre-component-expanded' : 'pyre-component-collapsed';
+	let componentClass = this.state.showChildren ? 'pyre-component-expanded' : 'pyre-component-collapsed';
+	componentClass += this.props.visible ? '' : ' hide';
 	const pythonClass = this.state.selected ? 'python-type-selected' : 'python-type';
 
-	let subcomponents = null;
-	if (this.state.showChildren) {
-	    subcomponents = Object.keys(this.props.value.components).map((name) => {
-		const component = this.props.value.components[name];
-		const prefix = (this.props.prefix) ? this.props.prefix+"."+this.props.value.name : this.props.value.name;
-		return (
-			<ComponentAvatar key={name} facility={name} value={component} prefix={prefix} handleSelection={this.props.handleSelection}/>
-		);
-	    }, this);
-	} // if
+	this.subcomponentObjs = new Array(Object.keys(this.props.value.components).length);
+	const subcomponents = Object.keys(this.props.value.components).map((name, index) => {
+	    const component = this.props.value.components[name];
+	    const prefix = (this.props.prefix) ? this.props.prefix+"."+this.props.value.name : this.props.value.name;
+	    return (
+		    <ComponentAvatar key={name} facility={name} value={component} prefix={prefix} handleSelection={this.props.handleSelection} visible={this.state.showChildren && this.props.visible} ref={(obj) => { this.subcomponentObjs[index] = obj }} />
+	    );
+	}, this);
 	return (
 		<li key={this.props.value.name} className={componentClass} onClick={(event) => this.handleCollapseClick(event)} >
 		<span className="pyre-component">{this.props.facility}</span> = <span className={pythonClass} onClick={(event) => this.handleDetailClick(event)}>{this.props.value.class}</span>
@@ -109,7 +116,7 @@ class HierarchyPanel extends React.Component {
 		</div>
 		<div className="hierarchy-list">
 		<ul>
-		<ComponentAvatar key="application" facility="application" value={this.props.application} prefix={null} handleSelection={this.props.handleSelection} ref={(obj) => { this.component = obj; }}/>
+		<ComponentAvatar key="application" facility="application" value={this.props.application} prefix={null} handleSelection={this.props.handleSelection} visible={true} ref={(obj) => { this.component = obj; }} />
 		</ul>
 		</div>
 		</div>
