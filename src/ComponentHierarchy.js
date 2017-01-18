@@ -9,7 +9,7 @@
 //
 // Copyright (c) 2016-2017 University of California, Davis
 //
-// See COPYING for license information.
+// See LICENSE for license information.
 //
 // ----------------------------------------------------------------------
 //
@@ -26,7 +26,6 @@ class ComponentAvatar extends React.Component {
 	this.state = {
 	    showChildren: true
 	};
-
     } // constructor
 
     getFacility() {
@@ -97,7 +96,6 @@ class ComponentAvatar extends React.Component {
 } // ComponentAvatar
 
 class HierarchyPanel extends React.Component {
-
     handleCollapseClick() {
 	this.component.setShowChildren(false);
     } // handleCollapseClick

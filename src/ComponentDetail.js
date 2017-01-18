@@ -9,7 +9,7 @@
 //
 // Copyright (c) 2016-2017 University of California, Davis
 //
-// See COPYING for license information.
+// See LICENSE for license information.
 //
 // ----------------------------------------------------------------------
 //
