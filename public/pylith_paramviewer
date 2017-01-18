@@ -8,9 +8,9 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2016 University of California, Davis
+# Copyright (c) 2016-2017 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE for license information.
 #
 # ----------------------------------------------------------------------
 #
@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     description = "Starts web server for running browser-based GUI for viewing PyLith parameters."
     addInfo = "IMPORTANT: You must run this script from the directory with the index.html file. " \
-              "After starting server, point your browser to 127.0.0.1:9000 (or user-specified port)."
+              "After starting server, point your browser to http://127.0.0.1:9000 (or user-specified port)."
 
     import argparse
     parser = argparse.ArgumentParser(description=description, epilog=addInfo)
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     address = ('127.0.0.1', args.port)
     handler = SimpleHTTPServer.SimpleHTTPRequestHandler
     httpd = SocketServer.TCPServer(address, handler)
-    print "Point your browser to %s:%s" % address
+    print "Point your web browser to http://%s:%s" % address
 
     httpd.serve_forever()
 
