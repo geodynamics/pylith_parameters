@@ -53,10 +53,12 @@ The Version tab displays the version information for PyLith.
 ## Installation (Development Version)
 
 1. Clone repository
-    ```
-    git clone https://github.com/baagaard-usgs/pylith_parameters.git
-    cd pylith_parameters
-    ```
+
+        ```
+        git clone https://github.com/baagaard-usgs/pylith_parameters.git
+        cd pylith_parameters
+        ```
+		
 2. Install dependencies
 
   1. Install [Node.js](https://nodejs.org)
