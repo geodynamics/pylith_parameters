@@ -23,12 +23,6 @@ import { Version } from './PylithVersion';
 
 import './App.css';
 
-// :TODO:
-// Typecheck with PropTypes
-// Expand all doesn't expand hidden children
-// Can only update a mounted or mounting component. This usually means you called setState() on an unmounted component. This is a no-op. Please check the code for the ComponentAvatar component.
-
-
 class FileSelector extends React.Component {
     constructor(props) {
 	super(props);
