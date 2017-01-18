@@ -18,10 +18,10 @@ tar -zxvf pylith_parameters-dist-vX.X.X.tgz
    file and start the web server. You can change the default port
    (9000) for the web server using the `--port=PORT` command line
    argument to `pylith_paramviewer`.
-```
-cd pylith_parameters
-pylith_paramviewer
-```
+  ```
+  cd pylith_parameters
+  pylith_paramviewer
+  ```
 2. Point your web-browser to `http://127.0.0.1:9000`.
 3. Load the sample JSON file `sample_parameters.json` or other file by
    clicking on the `Choose File` button.
@@ -53,10 +53,10 @@ The Version tab displays the version information for PyLith.
 ## Installation (Development Version)
 
 1. Clone repository
-```
-git clone https://github.com/baagaard-usgs/pylith_parameters.git
-cd pylith_parameters
-```
+  ```
+  git clone https://github.com/baagaard-usgs/pylith_parameters.git
+  cd pylith_parameters
+  ```
 2. Install dependencies
 
   1. Install [Node.js](https://nodejs.org)
