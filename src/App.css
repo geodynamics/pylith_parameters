@@ -46,46 +46,6 @@ div.header {
     bottom: 0;
 }
 
-div.detail-panel {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 45%;
-}
-div.component-detail {
-    position: absolute;
-    top: 5em;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    overflow: auto;
-}
-
-div.component-panel {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 52%;
-}
-div.hierarchy-list {
-    position: absolute;
-    top: 4em;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: auto;
-}
-div.version {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: auto;
-}
-
 h1 {
     font-size: large;
 }
@@ -98,29 +58,6 @@ h3 {
     margin-bottom: 0.2em;
 }
 
-.python-type {
-    color: #c90003;
-}
-.python-type-selected {
-    color: #c90003;
-    background: #cccccc;
-}
-.pyre-component {
-    color: #227eff;
-}
-li .pyre-component,
-dt .pyre-component {
-    font-weight: bold;
-}
-.pyre-property {
-    color: #009900;
-}
-dt .pyre-property {
-    font-weight: bold;
-}
-.selected {
-    background: #cccccc;
-}
 p.null-selection {
     font-style: italic;
 }
@@ -130,91 +67,14 @@ p.null-selection {
     margin: 5px;
 }
 
-/* Version */
-span.file-path {
-    font-family: "monospace","Courier";
-    color: #0000ff;
-}
-span.version {
-    color: #c90003;
-}
-
-/* Hierarchy */
-.component-panel,
-.component-panel *
-{
-    padding: 1px;
-    margin: 0;
-    margin-left: 0.2em;
-    list-style: none;
-}
-
-.pyre-component-collapsed::before
-{
-    content: "\25b6"; /* right triangle */
-    color: #000000;
-
-    display: inline-block;
-    margin: 2px 0 0;
-    width: 1.5em;
-    height: 13px;
-    vertical-align: top;
-    text-align: center;
-    font-size: medium;
-    line-height: 13px;
-}
-.pyre-component-expanded::before
-{
-    content: "\25e2";  /* down triangle  */
-    color: #999999;
-
-    display: inline-block;
-    margin: 2px 0 0;
-    width: 1.5em;
-    height: 13px;
-    vertical-align: top;
-    text-align: center;
-    font-size: medium;
-    line-height: 13px;
-}
- 
-.component-panel li ul
-{
-    margin: 0 0 0 24px;
-}
- 
-.component-panel *
-{
-    vertical-align: middle;
-}
- 
-.component-panel li
-{
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-}
-.hierarchy-settings button {
-    padding: 1px;
-    margin: 5px;
-}
-
-/* Detail panel */
-.detail-settings label {
-    padding-right: 10px;
-}
 dl {
     margin-top: 0.1em;
     margin-bottom: 0.1em;
     border: 0;
     padding: 0;
 }
-dl.component-metadata dt {
-    font-style: italic;
-}
-div.version-package dl {
-    margin-left: 2.0em;
-}
+
+
 dt {
     float: left;
     clear: both;

@@ -16,6 +16,9 @@
 
 import React from 'react';
 
+import './Pyre.css';
+import './ComponentHierarchy.css';
+
 class ComponentAvatar extends React.Component {
     constructor(props) {
 	super(props);

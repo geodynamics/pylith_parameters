@@ -16,6 +16,9 @@
 
 import React from 'react';
 
+import './App.css';
+import './PylithVersion.css';
+
 class VersionPlatform extends React.Component {
     render() {
 	return (

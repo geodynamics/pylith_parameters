@@ -16,6 +16,9 @@
 
 import React from 'react';
 
+import './Pyre.css';
+import './ComponentDetail.css';
+
 class ComponentDetail extends React.Component {
     render() {
 	const selected = this.props.selected;
@@ -79,7 +82,7 @@ class ComponentProperty extends React.Component {
 	const location = (this.props.showLocation) ? <div><dt>Set from</dt><dd>{property.setFrom}</dd></div> : null;
 	return(
 		<div><dt><span className="pyre-property">{this.props.name}</span> (<span className="python-type">{property.type}</span>)</dt><dd><span className="pyre-value">{property.value}</span>
-		<dl className="metadata">
+		<dl className="detail-metadata">
 		{description}
             {location}
 	    </dl>
@@ -98,7 +101,7 @@ class ComponentFacility extends React.Component {
 	      .reduce((prev,curr) => {return([prev, ', ', curr])}) : null;
 	return(
 		<div><dt><span className="pyre-component">{this.props.name}</span></dt><dd><span className="python-type">{facility.class}</span>
-		<dl className="metadata">
+		<dl className="detail-metadata">
 		<dt>Configurable as</dt><dd>{aliases}</dd>
 		{description}
                 {location}

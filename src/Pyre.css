@@ -1,0 +1,20 @@
+.python-type {
+    color: #c90003;
+}
+.python-type-selected {
+    color: #c90003;
+    background: #cccccc;
+}
+.pyre-component {
+    color: #227eff;
+}
+li .pyre-component,
+dt .pyre-component {
+    font-weight: bold;
+}
+.pyre-property {
+    color: #009900;
+}
+dt .pyre-property {
+    font-weight: bold;
+}

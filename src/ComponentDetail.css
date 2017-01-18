@@ -1,0 +1,41 @@
+/* -*- CSS -*-
+ *
+ * ----------------------------------------------------------------------
+ *
+ * Brad T. Aagaard, U.S. Geological Survey
+ *
+ * This code was developed as part of the Computational Infrastructure
+ * for Geodynamics (http://geodynamics.org).
+ *
+ * Copyright (c) 2010-2016 University of California, Davis
+ *
+ * See COPYING for license information.
+ *
+ * ----------------------------------------------------------------------
+ */
+
+div.detail-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 45%;
+}
+div.component-detail {
+    position: absolute;
+    top: 5em;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow: auto;
+}
+
+div.detail-settings label {
+    padding-right: 10px;
+}
+
+dl.detail-metadata dt {
+    font-style: italic;
+}
+
+/* End of file */
