@@ -46,10 +46,6 @@ class ComponentAvatar extends React.Component {
 	} // for
     } // setShowChildren
 
-    componentWillUnmount() {
-	this.subcomponentObjs = null;
-    } // componentWillUnmount
-
     handleCollapseClick(event) {
 	event.stopPropagation();
 	this.setState({
