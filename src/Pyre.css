@@ -28,8 +28,11 @@ li .pyre-component,
 dt .pyre-component {
     font-weight: bold;
 }
-.pyre-property {
+.pyre-value {
     color: #009900;
+}
+.pyre-property {
+    color: #af00af;
 }
 dt .pyre-property {
     font-weight: bold;

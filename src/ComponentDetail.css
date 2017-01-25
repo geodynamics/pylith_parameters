@@ -38,4 +38,14 @@ dl.detail-metadata dt {
     font-style: italic;
 }
 
+dl.detail-properties dd::before {
+    content: "=";
+}
+dl.detail-facilities dd::before {
+    content: "=";
+}
+dl.detail-metadata dd::before {
+    content: ":";
+}
+
 /* End of file */

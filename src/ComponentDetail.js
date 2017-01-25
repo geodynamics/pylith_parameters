@@ -65,10 +65,10 @@ class ComponentDetail extends React.Component {
 		</dl>
 		
 		<h3>Properties</h3>
-		<dl>{properties}</dl>
+		<dl className="detail-properties">{properties}</dl>
 		
 	        <h3>Facilities (subcomponents)</h3>
-		<dl>{facilities}</dl>
+		<dl className="detail-facilities">{facilities}</dl>
 		</div>
 	);
     } // render
