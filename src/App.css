@@ -14,20 +14,10 @@
  * ----------------------------------------------------------------------
  */
 
-html body {
-    margin: 0;
-    padding: 0;
-}
-body * {
-    font-family: 'Lucida sans', Arial, Helvetica;
-    font-size: small;
-    box-sizing: border-box;
-}
-
 div.header {
     position: absolute;
     top: 0;
-    left: 0;
+    left: 0.5em;
     right: 0;
 }
 
@@ -46,7 +36,7 @@ div.header {
     margin-top: 2px;
     position: absolute;
     top: 10em;
-    left: 0;
+    left: 0.5em;
     right: 0;
     bottom: 0;
 }

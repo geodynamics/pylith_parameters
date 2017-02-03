@@ -14,10 +14,14 @@
  * ----------------------------------------------------------------------
  */
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+html body {
+    margin: 1em;
+    padding: 1.0em;
+}
+body * {
+    font-family: 'Lucida sans', Arial, Helvetica;
+    font-size: small;
+    box-sizing: border-box;
 }
 
 /* End of file */
