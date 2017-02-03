@@ -77,7 +77,7 @@ class ComponentAvatar extends React.Component {
 	this.subcomponentObjs = new Array(Object.keys(this.props.value.components).length);
 	const subcomponents = Object.keys(this.props.value.components).map((name, index) => {
 	    const component = this.props.value.components[name];
-	    const prefix = (this.props.prefix) ? this.props.prefix+"."+this.props.value.name : this.props.value.name;
+	    const prefix = (this.props.prefix) ? this.props.prefix+"."+this.props.facility : this.props.facility;
 	    return (
 		    <ComponentAvatar key={name} facility={name} value={component} prefix={prefix} handleSelection={this.props.handleSelection} visible={this.state.showChildren && this.props.visible} ref={(obj) => { this.subcomponentObjs[index] = obj }} />
 	    );
