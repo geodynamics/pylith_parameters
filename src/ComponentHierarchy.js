@@ -110,7 +110,7 @@ class HierarchyPanel extends React.Component {
 		</div>
 		<div className="hierarchy-list">
 		<ul>
-		<ComponentAvatar key="application" facility="application" value={this.props.application} prefix={null} handleSelection={this.props.handleSelection} visible={true} ref={(obj) => { this.component = obj; }} />
+		<ComponentAvatar key="application" facility="pylithapp" value={this.props.application} prefix={null} handleSelection={this.props.handleSelection} visible={true} ref={(obj) => { this.component = obj; }} />
 		</ul>
 		</div>
 		</div>
