@@ -9,18 +9,18 @@ Download and unpack the tarball for the latest release. We recommend
 unpacking the tarball in the top-level PyLith directory.
    
 ```
-tar -zxvf pylith_parameters-dist-vX.X.X.tgz
+tar -zxvf pylith_parameters-vX.X.X.tgz
 ```
 
 ## Running the parameter viewer
 
-1. Change to the pylith_parameters directory containing the index.html
+1. Change to the parametersgui directory containing the index.html
    file and start the web server. You can change the default port
    (9000) for the web server using the `--port=PORT` command line
    argument to `pylith_paramviewer`.
 
   ```
-  cd pylith_parameters
+  cd parametersguis
   pylith_paramviewer
   ```
 
