@@ -1,19 +1,21 @@
 {
-  "name": "pylith_paramviewer",
-  "version": "1.0.0",
-  "private": true,
-  "devDependencies": {
-    "react-scripts": "0.8.0"
-  },
-  "dependencies": {
-    "react": "^15.4.1",
-    "react-dom": "^15.4.1",
-    "react-tabs": "^0.8.2"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
+    "name": "pylith_parameters",
+    "version": "1.0.1",
+    "private": true,
+    "devDependencies": {
+	"react-scripts": "0.8.0"
+    },
+    "homepage": "https://geodynamics.github.io/pylith_parameters/",
+    "dependencies": {
+	"react": "^15.4.1",
+	"react-dom": "^15.4.1",
+	"react-tabs": "^0.8.2"
+    },
+    "scripts": {
+	"start": "react-scripts start",
+	"build": "react-scripts build",
+	"deploy": "npm run build&&gh-pages -d build",
+	"test": "react-scripts test --env=jsdom",
+	"eject": "react-scripts eject"
+    }
 }
