@@ -5,12 +5,7 @@ Web-browser application to view PyLith parameter JSON files created by
 
 ## Installation
 
-Download and unpack the tarball for the latest release. We recommend
-unpacking the tarball in the top-level PyLith directory.
-   
-```
-tar -zxvf pylith_parameters-vX.X.X.tgz
-```
+See [INSTALL.md](INSTALL.md) for installation instructions.
 
 ## Running the parameter viewer
 

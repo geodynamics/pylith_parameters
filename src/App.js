@@ -43,13 +43,20 @@ class FileSelector extends React.Component {
 	if (this.state.file) {
 	    this.props.handleChange(this.state.file);
 	} // if
-    } // handleFileChanged
+    } // handleReload
+
+    handleHelp() {
+	window.open("doc/index.html", "_blank");
+    } // handleHelp
 
     render() {
 	return (
 	    <div>
 	    <input type="file" id="filename" onChange={(event) => this.handleFileChanged(event)}/>
-		<button onClick={() => this.handleReload()}>Reload</button>
+		<button id="reload" onClick={() => this.handleReload()}>Reload</button>
+		<div style={{"float": "right", "marginRight": "1em"}}>
+		<button onClick={() => this.handleHelp()}>Help</button>
+		</div>
 </div>
 	);
     } // render
