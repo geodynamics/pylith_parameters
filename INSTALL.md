@@ -40,7 +40,7 @@ $$ npm start
 To deploy the application to
 https://geodynamics.github.io/pylith_parameters,
 ```
-$$ npm deploy
+$$ npm run deploy
 ```
 
 ### Tarball for release
