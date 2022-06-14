@@ -1,7 +1,6 @@
 # PyLith Parameter Viewer
 
-Web-browser application to view PyLith parameter JSON files created by
-`pylithinfo` or generated when running `pylith`.
+Web-browser application to view PyLith parameter JSON files created by `pylithinfo` or generated when running `pylith`.
 
 ## Features
 
