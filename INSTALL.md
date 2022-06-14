@@ -16,7 +16,7 @@ in the top-level PyLith directory.
 # Go to the top-level PyLith directory
 $$ cd pylith
 # Unpack the tarball
-$$ tar -xvf pylith_parameters-1.0.1.tgz
+$$ tar -xvf pylith_parameters-2.0.0.tar.gz
 ```
 
 ## Developer
