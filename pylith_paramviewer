@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env nemesis
 # -*- Python -*-
 #
 # ----------------------------------------------------------------------
@@ -8,7 +8,7 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2016-2017 University of California, Davis
+# Copyright (c) 2016-2022 University of California, Davis
 #
 # See LICENSE for license information.
 #
@@ -22,22 +22,22 @@ if __name__ == "__main__":
 
     description = "Starts web server for running browser-based GUI for viewing PyLith parameters."
     addInfo = "IMPORTANT: You must run this script from the directory with the index.html file. " \
-              "After starting server, point your browser to http://127.0.0.1:9000 (or user-specified port)."
+              "After starting server, point your browser to http://localhost:9000 (or user-specified port)."
 
     import argparse
     parser = argparse.ArgumentParser(description=description, epilog=addInfo)
-    parser.add_argument("--port", action="store", type=int, dest="port", help="Port for web server (default: 9000).", default=9000)
+    parser.add_argument("--port", action="store", type=int, dest="port",
+                        help="Port for web server (default: 9000).", default=9000)
     args = parser.parse_args()
 
-    import SimpleHTTPServer
-    import SocketServer
+    import http.server
+    import socketserver
 
-    address = ('127.0.0.1', args.port)
-    handler = SimpleHTTPServer.SimpleHTTPRequestHandler
-    httpd = SocketServer.TCPServer(address, handler)
-    print "Point your web browser to http://%s:%s" % address
-
-    httpd.serve_forever()
+    address = ('localhost', args.port)
+    handler = http.server.SimpleHTTPRequestHandler
+    with socketserver.TCPServer(address, handler) as httpd:
+        print("Point your web browser to http://%s:%s" % address)
+        httpd.serve_forever()
 
 
 # End of file
